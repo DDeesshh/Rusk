@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-image) no-repeat center center fixed;
+  background-size: cover;
+}
+
+.content {
+  max-width: 1320px;
+  padding: 0 0.75rem;
+  margin: 6.875rem auto;
+}
+
+::selection {
+  background-color: var(--scroll-color);
+}
+
+::-webkit-scrollbar {
+  background: var(--decorate-bg);
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-color);
+}

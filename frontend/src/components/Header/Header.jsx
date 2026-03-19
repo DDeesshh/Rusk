@@ -1,0 +1,48 @@
+import NavButton from '../ui/NavButton.jsx';
+import Button from '../ui/Button.jsx';
+import ThemeSwitch from '../ui/ThemeSwitch.jsx';
+import BurgerMenu from '../Nav/BurgerMenu.jsx';
+import { HashLink } from 'react-router-hash-link';
+import { useUserRoles } from '../../users/useUserRoles.jsx';
+import { NavLinks } from '../Nav/NavLinks.jsx';
+import { Link } from "react-router-dom";
+import "./Header.css";
+
+const Header = ({ userRole, setUserRole }) => {
+  const { authButton, authIcons, modal } = useUserRoles({ userRole, setUserRole });
+  return (
+    <header>
+      <div className="container header__container">
+
+        <Link className="header__logo" to="/">
+          RUSK
+        </Link>
+
+        <div className="header__nav">
+          <div className="header__nav-links">
+            <NavLinks authButton={authButton} />
+          </div>
+
+          <div className="header__nav-icons">
+            {authIcons}
+          </div>
+        </div>
+
+        <div className="header__btn-switch">
+          <HashLink smooth to="/#booking-form">
+            <Button text="Бронь стола" />
+          </HashLink>
+          <ThemeSwitch />
+        </div>
+
+        <div className="header__burger">
+          <BurgerMenu userRole={userRole} setUserRole={setUserRole} />
+        </div>
+
+      </div>
+      {modal}
+    </header>
+  );
+};
+
+export default Header;

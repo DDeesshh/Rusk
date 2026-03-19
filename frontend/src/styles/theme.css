@@ -1,0 +1,29 @@
+/* Светлая тема */
+.light-theme {
+  --add-color: #ffffff;
+  --text-color: #000000;
+  --default-font-input: #4E4E4E;
+  --button-disabled: #666666;
+  --decorate-bg: #F5F5F5;
+  --bg-body: url();
+  --primary-color: #8B6B3F;
+  --secondary-color: #7C5E35; /* при нажатии*/
+  --input-icon-color: invert(0); /* для календаря и часов*/
+  --bg-image: url('/img/bg-light.jpg');
+  --scroll-color: #9b8360;
+}
+
+/* Темная тема */
+.dark-theme {
+  --add-color: #000000;
+  --text-color: #ffffff;
+  --default-font-input: #DFDFDF;
+  --button-disabled: #B5B5B5;
+  --decorate-bg: #3C3C3C;
+  --bg-body: url();
+  --primary-color: #CAA462;
+  --secondary-color: #B39259;  /* при нажатии*/
+  --input-icon-color: invert(1); /* для календаря и часов*/
+  --bg-image: url('/img/bg-dark.jpg');
+  --scroll-color: #7b7b7b;
+}

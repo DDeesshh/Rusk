@@ -1,0 +1,60 @@
+/* ------------- TopDishes ------------- */
+
+.top-dishes {
+    margin: 6.875rem 0;
+}
+
+.top-dish {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 20rem;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.top-dish__bg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.8s ease;
+}
+
+.top-dish__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: color-mix(in srgb, var(--decorate-bg) 70%, transparent);
+}
+
+.top-dish:hover .top-dish__bg {
+    transform: scale(1.1);
+}
+
+.top-dish:hover .top-dish__overlay {
+    opacity: 1;
+}
+
+.top-dish__overlay p {
+    text-transform: uppercase;
+    color: var(--primary-color);
+    font-size: 10px;
+    margin-bottom: 0.25rem;
+}
+
+.top-dish__overlay h2 {
+    font-weight: 400;
+}
+
+/* Планшеты */
+@media (max-width: 770px) {
+    .top-dish {
+        height: 15rem;
+    }
+}

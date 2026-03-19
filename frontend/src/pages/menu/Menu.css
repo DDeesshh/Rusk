@@ -1,0 +1,123 @@
+/* ---------- Menu---------- */
+
+.menu__nav{
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+   
+}
+
+
+
+/* ---------- MenuItem ---------- */
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 15px;
+    /* background: var(--decorate-bg); */
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
+    /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+}
+
+/* .menu-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+} */
+
+.menu-item__image-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.menu-item__image {
+    width: 110px;
+    height: 110px;
+    border-radius: 100px;
+    object-fit: cover;
+}
+
+.menu-item__title {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.menu-item__price-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+    min-width: 70px;
+}
+
+.menu-item__price {
+    color: var(--primary-color);
+}
+
+.menu-item__actions {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 0px;
+    bottom: 0;
+    justify-content: space-between;
+    left: 0;
+}
+
+/* ---------- MenuCategory ---------- */
+
+.menu-category{
+    margin: 80px 0;
+}
+
+.menu-category__list {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px 30px;
+    width: 100%;
+}
+
+/* ---------- Адаптив ---------- */
+@media (max-width: 980px) {
+    .menu-category__list {
+        grid-template-columns: 1fr;
+        row-gap: 40px;
+    }
+
+    .menu-item {
+        /* flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px; */
+    }
+
+    .menu-item__image {
+        width: 130px;
+        height: 130px;
+    }
+
+    .menu-item__price-block {
+        flex-direction: row;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-item__title {
+        font-size: 1rem;
+    }
+
+    .menu-item__ingredients {
+        font-size: 0.85rem;
+    }
+
+    .menu-item__price {
+        font-size: 1.1rem;
+    }
+
+    .menu-item__weight {
+        font-size: 0.85rem;
+    }
+}

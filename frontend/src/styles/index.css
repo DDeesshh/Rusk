@@ -1,0 +1,123 @@
+/* -------------------------- Fonts -------------------------- */
+
+/* Playfair Display */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../assets/fonts/PlayfairDisplay.woff2') format('woff2');
+  font-weight: 400 900;
+  font-style: normal;
+}
+
+/* Merriweather */
+@font-face {
+  font-family: 'Merriweather';
+  src: url('../assets/fonts/Merriweather.woff2') format('woff2');
+  font-weight: 300 900;
+  font-style: normal;
+}
+
+h1,
+.header__logo,
+.footer__center-logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  font-size: 50px;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  font-size: 20px;
+  text-transform: uppercase;
+  color: var(--text-color);
+  margin: 0;
+}
+
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: 15px;
+  text-transform: uppercase;
+  color: var(--text-color);
+  margin: 0;
+}
+
+p,
+a {
+  font-family: 'Merriweather', serif;
+  font-weight: 300;
+  font-size: 15px;
+  color: var(--text-color);
+  margin: 0;
+  text-decoration: none;
+}
+
+.top-dishes__title,
+.book__title,
+.about__description-title,
+.reviews__title,
+.about__services-title,
+.menu-category__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 880px) {
+
+  h1 {
+    font-size: 40px;
+  }
+
+  h2 {
+    font-size: 15px;
+  }
+
+  h3 {
+    font-size: 13px;
+  }
+
+  p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 710px) {
+  h1 {
+    font-size: 30px;
+  }
+
+  h2 {
+    font-size: 13px;
+  }
+
+  h3 {
+    font-size: 10px;
+  }
+
+  p {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 580px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 10px;
+  }
+
+  h3 {
+    font-size: 8px;
+  }
+
+  p {
+    font-size: 8px;
+  }
+}
