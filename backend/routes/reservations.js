@@ -18,10 +18,10 @@ const getWorkingHoursByDate = (dateString) => {
   const isWeekend = day === 0 || day === 6;
 
   if (isWeekend) {
-    return { startMinutes: 11 * 60, endMinutes: 23 * 60 + 59, label: "11:00-23:59" };
+    return { startMinutes: 11 * 60, endMinutes: 23 * 60, label: "11:00-23:00" };
   }
 
-  return { startMinutes: 11 * 60, endMinutes: 21 * 60, label: "11:00-21:00" };
+  return { startMinutes: 11 * 60, endMinutes: 20 * 60, label: "11:00-20:00" };
 };
 
 router.post("/", async (req, res) => {

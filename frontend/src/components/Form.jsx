@@ -11,10 +11,10 @@ const getWorkingHoursByDate = (dateString) => {
     const isWeekend = day === 0 || day === 6;
 
     if (isWeekend) {
-        return { startMinutes: 11 * 60, endMinutes: 23 * 60 + 59, label: "11:00-23:59" };
+        return { startMinutes: 11 * 60, endMinutes: 23 * 60, label: "11:00-23:00" };
     }
 
-    return { startMinutes: 11 * 60, endMinutes: 21 * 60, label: "11:00-21:00" };
+    return { startMinutes: 11 * 60, endMinutes: 20 * 60, label: "11:00-20:00" };
 };
 
 const defaultForm = {
@@ -34,8 +34,8 @@ const Form = () => {
     const [serverMessage, setServerMessage] = useState("");
     const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
     const workingHoursHint = form.date
-        ? `Доступное время в выбранный день: ${getWorkingHoursByDate(form.date).label}`
-        : "Сначала выберите дату, чтобы увидеть доступное время бронирования.";
+        ? <p>Доступное время в выбранный день: {getWorkingHoursByDate(form.date).label}</p>
+        : <p>Сначала выберите дату, чтобы увидеть доступное время бронирования.</p>;
 
     const handleChange = (event) => {
         const { name, value } = event.target;
