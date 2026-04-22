@@ -2,6 +2,7 @@ import express from 'express';
 import { pool } from './db/connection.js';
 import testRouter from "./routes/test.js";
 import menuRoutes from "./routes/menu.js";
+import authRoutes from "./routes/auth.js";
 import cors from "cors";
 
 const app = express();
@@ -25,6 +26,7 @@ app.listen(PORT, () => {
 });
 
 app.use("/api/menu", menuRoutes);
+app.use("/api/auth", authRoutes);
 
 
 

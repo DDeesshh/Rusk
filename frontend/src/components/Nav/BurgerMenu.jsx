@@ -3,6 +3,7 @@ import { useState } from "react";
 import { IconButton } from "../ui/ActionButton.jsx";
 import { useUserRoles } from "../../users/useUserRoles.jsx";
 import { NavLinks } from "./NavLinks";
+import { useAuth } from "../../contexts/AuthContext.jsx";
 
 const CustBurgerButton = styled.div`
   width: 1.875rem;
@@ -63,8 +64,9 @@ const IconsRow = styled.div`
   gap: 10px;
 `;
 
-const BurgerMenu = ({ userRole, setUserRole }) => {
-  const { authButton, authIcons, modal } = useUserRoles({ userRole, setUserRole });
+const BurgerMenu = () => {
+  const { userRole } = useAuth();
+  const { authButton, authIcons, modal } = useUserRoles();
   const [open, setOpen] = useState(false);
 
   return (

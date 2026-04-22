@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState } from "react";
 import Header from './components/Header/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import Home from "./pages/home/Home.jsx";
 import About from "./pages/about/About.jsx";
 import Menu from './pages/menu/Menu.jsx';
 import Contacts from './pages/contacts/Contacts.jsx';
+import { useAuth } from './contexts/AuthContext.jsx';
 
 import ThemeSwitch from './components/ui/ThemeSwitch.jsx';
 import Button from './components/ui/Button.jsx';
@@ -17,15 +17,15 @@ import IconDecorate, { Icon } from './components/ui/IconDecorate.jsx';
 
 
 function App() {
-  const [userRole, setUserRole] = useState("guest");
+  const { userRole } = useAuth();
 
   return (
     <Router>
-      <Header userRole={userRole} setUserRole={setUserRole} />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About userRole={userRole} setUserRole={setUserRole} />} />
-        <Route path="/menu" element={<Menu userRole={userRole} setUserRole={setUserRole} />} />
+        <Route path="/about" element={<About userRole={userRole} />} />
+        <Route path="/menu" element={<Menu userRole={userRole} />} />
         <Route path="/contacts" element={<Contacts />} />
       </Routes>
       <Footer />

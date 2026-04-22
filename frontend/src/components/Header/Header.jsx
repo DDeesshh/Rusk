@@ -6,10 +6,12 @@ import { HashLink } from 'react-router-hash-link';
 import { useUserRoles } from '../../users/useUserRoles.jsx';
 import { NavLinks } from '../Nav/NavLinks.jsx';
 import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext.jsx";
 import "./Header.css";
 
-const Header = ({ userRole, setUserRole }) => {
-  const { authButton, authIcons, modal } = useUserRoles({ userRole, setUserRole });
+const Header = () => {
+  const { userRole } = useAuth();
+  const { authButton, authIcons, modal } = useUserRoles();
   return (
     <header>
       <div className="container header__container">
@@ -36,7 +38,7 @@ const Header = ({ userRole, setUserRole }) => {
         </div>
 
         <div className="header__burger">
-          <BurgerMenu userRole={userRole} setUserRole={setUserRole} />
+          <BurgerMenu />
         </div>
 
       </div>

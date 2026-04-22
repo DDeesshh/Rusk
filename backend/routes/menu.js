@@ -1,3 +1,5 @@
+// вывод меню из бд
+
 import express from "express";
 import { pool } from "../db/connection.js";
 

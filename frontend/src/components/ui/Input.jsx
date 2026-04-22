@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 
 const CustInput = styled.input`
   width: ${({ $size }) => ($size === 'large' ? '538px' : '256px')};
@@ -38,13 +37,10 @@ const CustInput = styled.input`
 }
 `;
 
-const ErrorMessage = styled.span`
-  font-family: 'Marriweather', serif;
-  font-weight: 300;
+const ErrorText = styled.p`
+  margin: 6px 0 0;
+  color: #dc3545;
   font-size: 12px;
-  color: red;
-  margin-top: 4px;
-  display: block;
 `;
 
 export default function Input({
@@ -52,35 +48,30 @@ export default function Input({
   className,
   type = 'text',
   size,
+  name,
   value,
   onChange,
+  errorText = "",
+  ...rest
 }) {
-  const [error, setError] = useState(false);
-
-  const handleChange = e => {
-    const val = e.target.value;
+  const handleChange = (e) => {
     onChange && onChange(e);
-
-    // Валидация: если введено "111"
-    if (val === '111') {
-      setError(true);
-    } else {
-      setError(false);
-    }
   };
 
   return (
     <div>
       <CustInput
         className={className}
+        name={name}
         placeholder={placeholder}
         type={type}
         $size={size}
-        $error={error}
+        $error={Boolean(errorText)}
         onChange={handleChange}
         value={value}
+        {...rest}
       />
-      {error && <ErrorMessage>Поле не может быть 111</ErrorMessage>}
+      {errorText ? <ErrorText>{errorText}</ErrorText> : null}
     </div>
   );
 }
