@@ -5,6 +5,17 @@ import { createReservationRequest } from "../services/reservationService.js";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^\+7\d{10}$/;
+const getWorkingHoursByDate = (dateString) => {
+    const date = new Date(`${dateString}T00:00:00`);
+    const day = date.getDay();
+    const isWeekend = day === 0 || day === 6;
+
+    if (isWeekend) {
+        return { startMinutes: 11 * 60, endMinutes: 23 * 60 + 59, label: "11:00-23:59" };
+    }
+
+    return { startMinutes: 11 * 60, endMinutes: 21 * 60, label: "11:00-21:00" };
+};
 
 const defaultForm = {
   name: "",
@@ -22,6 +33,9 @@ const Form = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [serverMessage, setServerMessage] = useState("");
     const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
+    const workingHoursHint = form.date
+        ? `Доступное время в выбранный день: ${getWorkingHoursByDate(form.date).label}`
+        : "Сначала выберите дату, чтобы увидеть доступное время бронирования.";
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -50,6 +64,19 @@ const Form = () => {
         }
         if (!form.time) {
             nextErrors.time = "Укажите время";
+        } else if (form.date) {
+            const [hours, minutes] = form.time.split(":").map(Number);
+            const selectedMinutes = hours * 60 + minutes;
+            const workingHours = getWorkingHoursByDate(form.date);
+
+            if (
+                Number.isNaN(hours) ||
+                Number.isNaN(minutes) ||
+                selectedMinutes < workingHours.startMinutes ||
+                selectedMinutes > workingHours.endMinutes
+            ) {
+                nextErrors.time = `В выбранный день бронирование доступно только с ${workingHours.label}`;
+            }
         }
         if (!Number.isInteger(guestsCountNumber) || guestsCountNumber < 1 || guestsCountNumber > 20) {
             nextErrors.guests_count = "Количество гостей: от 1 до 20";
@@ -139,6 +166,7 @@ const Form = () => {
                     onChange={handleChange}
                     errorText={errors.time}
                 />
+                <p className="mb-0 text-muted">{workingHoursHint}</p>
                 <Input
                     name="guests_count"
                     type="number"

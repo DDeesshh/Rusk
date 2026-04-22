@@ -12,7 +12,17 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^\+7\d{10}$/;
 
 const toIsoDate = (date) => new Date(date).toISOString().slice(0, 10);
-const isToday = (date) => toIsoDate(date) === toIsoDate(new Date());
+const getWorkingHoursByDate = (dateString) => {
+  const date = new Date(`${dateString}T00:00:00`);
+  const day = date.getDay();
+  const isWeekend = day === 0 || day === 6;
+
+  if (isWeekend) {
+    return { startMinutes: 11 * 60, endMinutes: 23 * 60 + 59, label: "11:00-23:59" };
+  }
+
+  return { startMinutes: 11 * 60, endMinutes: 21 * 60, label: "11:00-21:00" };
+};
 
 router.post("/", async (req, res) => {
   try {
@@ -78,8 +88,19 @@ router.post("/", async (req, res) => {
     }
 
     const [hours, minutes] = String(time).split(":").map(Number);
-    if (hours < 10 || hours > 23 || minutes < 0 || minutes > 59) {
-      return res.status(400).json({ error: "Бронирование доступно с 10:00 до 23:59" });
+    if (minutes < 0 || minutes > 59 || hours < 0 || hours > 23) {
+      return res.status(400).json({ error: "Некорректное время" });
+    }
+
+    const selectedMinutes = hours * 60 + minutes;
+    const workingHours = getWorkingHoursByDate(date);
+    if (
+      selectedMinutes < workingHours.startMinutes ||
+      selectedMinutes > workingHours.endMinutes
+    ) {
+      return res.status(400).json({
+        error: `В выбранный день бронирование доступно только с ${workingHours.label}`,
+      });
     }
 
     const [duplicates] = await pool.query(
