@@ -23,6 +23,7 @@ const MenuItem = ({ item, userRole }) => {
                 )
                 }
                 {/* Кнопки — только для админа */}
+                {/* comment */}
                 {userRole === "admin" && (
                     <>
                         <div className="menu-item__actions">

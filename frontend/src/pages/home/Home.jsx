@@ -6,7 +6,7 @@ import "../home/Home.css";
 const Home = () => {
 
     const slides = [
-        { type: "image", src: "/img/restaurant2.png" },
+        { type: "video", src: "/img/video.mp4" },
         { type: "image", src: "/img/restaurant.png" },
         { type: "image", src: "/img/restaurant3.png" }
     ];
