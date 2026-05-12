@@ -72,6 +72,27 @@ function ButtonWithTooltip({ iconClass, onClick, label }) {
   );
 }
 
+/** Подсказка слева от кнопки — круг оказывается у правого края (отзывы админ). */
+const ActionWithHintEnd = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 10px;
+`;
+
+const TooltipLabelEnd = styled(TooltipLabel)`
+  margin-left: 0;
+`;
+
+function ButtonWithTooltipEnd({ iconClass, onClick, label }) {
+  return (
+    <ActionWithHintEnd>
+      <ActionButton iconClass={iconClass} onClick={onClick} />
+      {label ? <TooltipLabelEnd>{label}</TooltipLabelEnd> : null}
+    </ActionWithHintEnd>
+  );
+}
+
 /* Меню (клиент): избранное – только левый верх фото (50% × 50%) */
 const DishMenuFavSlot = styled.div`
   position: absolute;
@@ -253,6 +274,75 @@ export function DishImageActionAdmin({ onClick, tooltip = 'Удалить блю
         <ButtonWithTooltip iconClass="icon-remove" onClick={onClick} label={tooltip} />
       </DishAdminDeleteSlot>
     </DishAdminDeleteHover>
+  );
+}
+
+/* Отзывы (админ): удалить — правый верх карточки (50% × 50%), как зоны на фото в меню */
+const ReviewAdminDeleteSlot = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 6px 8px;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  pointer-events: none;
+`;
+
+const ReviewAdminDeleteHover = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 50%;
+  z-index: 6;
+
+  &:hover ${ReviewAdminDeleteSlot} {
+    opacity: 1;
+    pointer-events: auto;
+  }
+`;
+
+export function ReviewCardAdminDelete({ onClick, tooltip = "Удалить отзыв" }) {
+  return (
+    <ReviewAdminDeleteHover>
+      <ReviewAdminDeleteSlot>
+        <ButtonWithTooltipEnd iconClass="icon-remove" onClick={onClick} label={tooltip} />
+      </ReviewAdminDeleteSlot>
+    </ReviewAdminDeleteHover>
+  );
+}
+
+/* Отзывы (клиент): кнопка «добавить» в том же месте под слайдером, появляется при наведении на зону */
+const ReviewsAddInner = styled.div`
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+`;
+
+const ReviewsAddZone = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  min-height: 48px;
+
+  &:hover ${ReviewsAddInner} {
+    opacity: 1;
+    pointer-events: auto;
+  }
+`;
+
+export function ReviewsAddReviewReveal({ onClick, label = "Добавить отзыв" }) {
+  return (
+    <ReviewsAddZone>
+      <ReviewsAddInner>
+        <ButtonWithTooltip iconClass="icon-add" onClick={onClick} label={label} />
+      </ReviewsAddInner>
+    </ReviewsAddZone>
   );
 }
 

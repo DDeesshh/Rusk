@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import ActionButton, { IconButton } from "../../../components/ui/ActionButton.jsx";
+import {
+    IconButton,
+    ReviewCardAdminDelete,
+    ReviewsAddReviewReveal,
+} from "../../../components/ui/ActionButton.jsx";
 import { Icon } from "../../../components/ui/IconDecorate.jsx";
 import { Modal } from "../../../components/ui/Modal.jsx";
 import Button from "../../../components/ui/Button.jsx";
@@ -144,13 +148,10 @@ export default function Reviews({ userRole = "guest" }) {
                                         </div>
                                     </div>
                                     {userRole === "admin" && (
-                                        <div className="reviews-item__actions">
-                                            <ActionButton
-                                                iconClass="icon-remove"
-                                                className="reviews__delete-btn"
-                                                onClick={() => setDeleteConfirmId(review.id)}
-                                            />
-                                        </div>
+                                        <ReviewCardAdminDelete
+                                            onClick={() => setDeleteConfirmId(review.id)}
+                                            tooltip="Удалить отзыв"
+                                        />
                                     )}
                                 </div>
                             </SwiperSlide>
@@ -167,10 +168,9 @@ export default function Reviews({ userRole = "guest" }) {
             </div>
 
             {userRole === "client" && (
-                <ActionButton
-                    iconClass="icon-add"
-                    className="reviews__add-btn"
+                <ReviewsAddReviewReveal
                     onClick={() => setShowModal(true)}
+                    label="Оставить отзыв"
                 />
             )}
 

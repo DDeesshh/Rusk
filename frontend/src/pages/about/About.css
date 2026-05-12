@@ -53,16 +53,6 @@
     opacity: 0.85;
 }
 
-.reviews-item__actions {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-}
-
-.reviews__add-btn {
-    margin-top: 2rem;
-}
-
 .reviews-modal__textarea {
     width: min(538px, 100%);
     min-height: 120px;
