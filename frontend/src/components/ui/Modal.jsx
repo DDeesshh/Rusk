@@ -1,31 +1,37 @@
 import styled from "styled-components";
 import ActionButton from "./ActionButton.jsx";
 
+/** Прокручиваемый слой: при зуме / низком окне вся модалка уезжает вверх–вниз, без max-height на карточке (иначе «сплющивание»). */
 const Overlay = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: color-mix(in srgb, var(--decorate-bg) 90%, transparent);
+  inset: 0;
+  z-index: 1100;
+  box-sizing: border-box;
+  min-height: 100dvh;
+  padding: 12px 12px 24px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  align-items: flex-start;
+  background: color-mix(in srgb, var(--decorate-bg) 90%, transparent);
 `;
 
 const ModalWrapper = styled.div`
   background: var(--bg-image) no-repeat center center;
   background-size: cover;
-  width: 90%;      
-  max-width: 640px; 
+  width: min(640px, calc(100% - 8px));
+  max-width: 100%;
+  margin: clamp(8px, 3dvh, 28px) auto;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 
-    @media (min-width: 768px) {
-    width: 90%; /* Возвращаем 90% на планшетах и выше */
+  @media (min-width: 768px) {
+    width: min(640px, 90%);
   }
-  
 `;
 
 const Header = styled.div`
@@ -33,9 +39,10 @@ const Header = styled.div`
   background: color-mix(in srgb, var(--decorate-bg) 90%, transparent);
   box-shadow: 0 4px 18px var(--primary-color);
   display: flex;
-  justify-content: space-between; /* ← ключевое изменение */
+  justify-content: space-between;
   align-items: center;
   position: relative;
+  flex-shrink: 0;
 `;
 
 const Title = styled.h2`
@@ -52,28 +59,28 @@ const Footer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 `;
 
 const Body = styled.div`
   padding: 30px 38px;
+  flex-shrink: 0;
 `;
 
 export const Modal = ({ title, body, footer, onClose }) => {
-    return (
-        <Overlay>
-            <ModalWrapper>
-                <Header>
-                    <div style={{ width: '40px' }}></div>
-                    <Title>{title}</Title>
-                    <ActionButton iconClass="icon-cancel" onClick={onClose} />
-                </Header>
+  return (
+    <Overlay>
+      <ModalWrapper>
+        <Header>
+          <div style={{ width: "40px" }} aria-hidden />
+          <Title>{title}</Title>
+          <ActionButton iconClass="icon-cancel" onClick={onClose} aria-label="Закрыть" />
+        </Header>
 
-                <Body>
-                    {body}
-                </Body>
+        <Body>{body}</Body>
 
-                <Footer>{footer}</Footer>
-            </ModalWrapper>
-        </Overlay>
-    );
+        <Footer>{footer}</Footer>
+      </ModalWrapper>
+    </Overlay>
+  );
 };

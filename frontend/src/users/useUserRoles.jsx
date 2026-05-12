@@ -28,6 +28,15 @@ function ClientCartNav() {
   );
 }
 
+/** Закрыть выезжающее меню (бургер), если оно открыто — один хук в Header и в BurgerMenu. */
+const CLOSE_SIDEBAR_EVENT = "rusk-close-sidebar";
+
+const closeSidebarDrawer = () => {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent(CLOSE_SIDEBAR_EVENT));
+  }
+};
+
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^\+7\d{10}$/;
 const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
@@ -65,9 +74,20 @@ export const useUserRoles = () => {
     date_birth: "",
   });
 
-  const openLogin = () => setCurrentModal("login");
-  const openRegister = () => setCurrentModal("register");
-  const openMessage = () => setCurrentModal("message");
+  const openLogin = (e) => {
+    e?.preventDefault?.();
+    closeSidebarDrawer();
+    setCurrentModal("login");
+  };
+  const openRegister = (e) => {
+    e?.preventDefault?.();
+    closeSidebarDrawer();
+    setCurrentModal("register");
+  };
+  const openMessage = () => {
+    closeSidebarDrawer();
+    setCurrentModal("message");
+  };
   const closeModal = () => {
     setCurrentModal(null);
     setAuthError("");
@@ -173,6 +193,7 @@ export const useUserRoles = () => {
 
   const handleLogout = (e) => {
     e?.preventDefault?.();
+    closeSidebarDrawer();
     logout();
     navigate("/");
     setCurrentModal("loggedOut");
