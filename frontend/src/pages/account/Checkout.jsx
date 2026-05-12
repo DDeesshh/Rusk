@@ -5,7 +5,7 @@ import { useCart } from "../../contexts/CartContext.jsx";
 import Input from "../../components/ui/Input.jsx";
 import RadioButton from "../../components/ui/RadioButton.jsx";
 import Button from "../../components/ui/Button.jsx";
-import OrderPlacedModal from "../../components/OrderPlacedModal.jsx";
+import { Modal } from "../../components/ui/Modal.jsx";
 import { createOrder } from "../../services/orderService.js";
 import { validateOrderSlot } from "../../lib/orderHours.js";
 import "./Checkout.css";
@@ -202,7 +202,19 @@ export default function Checkout() {
   return (
     <div className="checkout account">
       {successModal.open ? (
-        <OrderPlacedModal displayNumber={successModal.displayNumber} onClose={closeSuccessModal} />
+        <Modal
+          title="Вы оформили заказ!"
+          body={
+            <>
+              <p className="checkout__order-success-number">№{successModal.displayNumber}</p>
+              <p className="checkout__order-success-text">
+                Статус заказа можно отслеживать в личном кабинете в разделе «Данные пользователя» — блок «Детали заказа».
+              </p>
+            </>
+          }
+          footer={<Button text="Ок" onClick={closeSuccessModal} />}
+          onClose={closeSuccessModal}
+        />
       ) : null}
 
       <div className="account__hero">

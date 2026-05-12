@@ -49,7 +49,9 @@ const Footer = styled.div`
   padding: 16px;
   background: color-mix(in srgb, var(--decorate-bg) 90%, transparent);
   box-shadow: 0 -4px 18px var(--primary-color);
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Body = styled.div`
