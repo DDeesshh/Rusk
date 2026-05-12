@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NavButton from "../components/ui/NavButton.jsx";
 import { IconButton } from "../components/ui/ActionButton.jsx";
 import { Modal } from "../components/ui/Modal.jsx";
@@ -26,6 +27,7 @@ const getAge = (dateString) => {
 
 export const useUserRoles = () => {
   const { userRole, login, logout, register } = useAuth();
+  const navigate = useNavigate();
   const [currentModal, setCurrentModal] = useState(null);
   const [authError, setAuthError] = useState("");
   const [loginErrors, setLoginErrors] = useState({});
@@ -148,12 +150,17 @@ export const useUserRoles = () => {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   const authButton = (() => {
     if (userRole === "guest") {
       return <NavButton text="Войти" onClick={openLogin} to="#" />;
     }
     if (userRole === "client" || userRole === "admin") {
-      return <NavButton text="Выйти" onClick={logout} to="#" />;
+      return <NavButton text="Выйти" onClick={handleLogout} to="#" />;
     }
     return null;
   })();
@@ -162,14 +169,14 @@ export const useUserRoles = () => {
     if (userRole === "client") {
       return (
         <>
-          <IconButton className="icon-user" />
+          <IconButton className="icon-user" onClick={() => navigate("/account")} />
           <IconButton className="icon-saved" />
           <IconButton className="icon-cart" />
         </>
       );
     }
     if (userRole === "admin") {
-      return <IconButton className="icon-user" />;
+      return <IconButton className="icon-user" onClick={() => navigate("/account")} />;
     }
     return null;
   })();

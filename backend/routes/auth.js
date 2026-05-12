@@ -158,4 +158,55 @@ router.get("/me", authMiddleware, async (req, res) => {
   }
 });
 
+router.patch("/me", authMiddleware, async (req, res) => {
+  try {
+    const { name, email, phone } = req.body;
+    const normalizedName = String(name || "").trim();
+    const normalizedEmail = String(email || "").trim().toLowerCase();
+    const normalizedPhone = String(phone || "").trim();
+
+    if (!normalizedName || !normalizedEmail || !normalizedPhone) {
+      return res.status(400).json({ error: "Заполните обязательные поля" });
+    }
+
+    if (normalizedName.length < 2 || normalizedName.length > 100) {
+      return res.status(400).json({ error: "Имя должно быть от 2 до 100 символов" });
+    }
+
+    if (!EMAIL_REGEX.test(normalizedEmail)) {
+      return res.status(400).json({ error: "Некорректный email" });
+    }
+
+    if (!PHONE_REGEX.test(normalizedPhone)) {
+      return res.status(400).json({ error: "Телефон должен быть в формате +79991234567" });
+    }
+
+    const [existingUsers] = await pool.query(
+      "SELECT id FROM users WHERE email = ? AND id <> ? LIMIT 1",
+      [normalizedEmail, req.user.id]
+    );
+
+    if (existingUsers.length > 0) {
+      return res.status(409).json({ error: "Этот email уже используется" });
+    }
+
+    await pool.query(
+      `UPDATE users
+       SET name = ?, email = ?, phone = ?
+       WHERE id = ?`,
+      [normalizedName, normalizedEmail, normalizedPhone, req.user.id]
+    );
+
+    const [rows] = await pool.query(
+      `SELECT id, name, email, phone, date_birth, role, created_at
+       FROM users WHERE id = ? LIMIT 1`,
+      [req.user.id]
+    );
+
+    return res.json({ user: rows[0] });
+  } catch (error) {
+    return res.status(500).json({ error: "Ошибка обновления профиля" });
+  }
+});
+
 export default router;

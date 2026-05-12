@@ -1,5 +1,10 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { loginRequest, meRequest, registerRequest } from "../services/authService.js";
+import {
+  loginRequest,
+  meRequest,
+  registerRequest,
+  updateMeRequest,
+} from "../services/authService.js";
 
 const AuthContext = createContext(null);
 const TOKEN_STORAGE_KEY = "rusk_token";
@@ -56,6 +61,16 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const updateProfile = async (payload) => {
+    if (!token) {
+      throw new Error("Требуется авторизация");
+    }
+
+    const data = await updateMeRequest(token, payload);
+    setUser(data.user);
+    return data.user;
+  };
+
   const value = useMemo(
     () => ({
       token,
@@ -66,6 +81,7 @@ export const AuthProvider = ({ children }) => {
       register,
       login,
       logout,
+      updateProfile,
     }),
     [token, user, isAuthLoading]
   );

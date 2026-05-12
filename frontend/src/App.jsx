@@ -5,6 +5,8 @@ import Home from "./pages/home/Home.jsx";
 import About from "./pages/about/About.jsx";
 import Menu from './pages/menu/Menu.jsx';
 import Contacts from './pages/contacts/Contacts.jsx';
+import Account from './pages/account/Account.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { useAuth } from './contexts/AuthContext.jsx';
 
 import ThemeSwitch from './components/ui/ThemeSwitch.jsx';
@@ -26,6 +28,14 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About userRole={userRole} />} />
         <Route path="/menu" element={<Menu userRole={userRole} />} />
+        <Route
+          path="/account"
+          element={
+            <ProtectedRoute>
+              <Account />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/contacts" element={<Contacts />} />
       </Routes>
       <Footer />

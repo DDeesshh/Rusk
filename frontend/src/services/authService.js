@@ -51,3 +51,20 @@ export const meRequest = async (token) => {
 
   return response.json();
 };
+
+export const updateMeRequest = async (token, payload) => {
+  const response = await fetch(`${API_BASE_URL}/me`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error(await getErrorMessage(response, "Ошибка обновления профиля"));
+  }
+
+  return response.json();
+};
