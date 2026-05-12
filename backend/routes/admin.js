@@ -1,0 +1,102 @@
+import express from "express";
+import { pool } from "../db/connection.js";
+import { authMiddleware } from "../middleware/auth.js";
+import { rolesMiddleware } from "../middleware/roles.js";
+
+const router = express.Router();
+
+router.get(
+  "/clients",
+  authMiddleware,
+  rolesMiddleware("admin"),
+  async (_req, res) => {
+    try {
+      const [rows] = await pool.query(
+        `SELECT id, name, phone, email, date_birth
+         FROM users
+         WHERE role = 'client'
+         ORDER BY id ASC`
+      );
+
+      const clients = rows.map((row) => ({
+        id: row.id,
+        name: row.name,
+        phone: row.phone ?? "",
+        email: row.email,
+        date_birth:
+          row.date_birth instanceof Date
+            ? row.date_birth.toISOString().slice(0, 10)
+            : String(row.date_birth || "").slice(0, 10),
+      }));
+
+      res.json({ clients });
+    } catch (err) {
+      res.status(500).json({ error: "Ошибка загрузки списка клиентов" });
+    }
+  }
+);
+
+function formatTimeValue(t) {
+  if (t == null) return "";
+  if (typeof t === "string") {
+    const s = t.trim();
+    if (s.length >= 5 && s[2] === ":") return s.slice(0, 5);
+    return s.slice(0, 5);
+  }
+  if (t instanceof Date && !Number.isNaN(t.getTime())) {
+    return t.toISOString().slice(11, 16);
+  }
+  return String(t).slice(0, 5);
+}
+
+function formatDateValue(d) {
+  if (!d) return "";
+  if (typeof d === "string" && /^\d{4}-\d{2}-\d{2}/.test(d)) {
+    return d.slice(0, 10);
+  }
+  if (d instanceof Date && !Number.isNaN(d.getTime())) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+  return String(d).slice(0, 10);
+}
+
+router.get(
+  "/reservations",
+  authMiddleware,
+  rolesMiddleware("admin"),
+  async (_req, res) => {
+    try {
+      const [rows] = await pool.query(
+        `SELECT id, user_id, name, phone, email, date, time, guests_count, status, comment, created_at
+         FROM reservations
+         ORDER BY date DESC, time DESC, id DESC`
+      );
+
+      const reservations = rows.map((row) => ({
+        id: row.id,
+        user_id: row.user_id,
+        name: row.name,
+        phone: row.phone ?? "",
+        email: row.email,
+        date: formatDateValue(row.date),
+        time: formatTimeValue(row.time),
+        guests_count: row.guests_count,
+        status: row.status,
+        comment: row.comment ? String(row.comment) : "",
+        created_at:
+          row.created_at instanceof Date
+            ? row.created_at.toISOString()
+            : row.created_at || null,
+      }));
+
+      res.json({ reservations });
+    } catch {
+      res.status(500).json({ error: "Ошибка загрузки заявок на бронь" });
+    }
+  }
+);
+
+export default router;
