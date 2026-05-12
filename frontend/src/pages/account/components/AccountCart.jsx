@@ -3,11 +3,14 @@ import { IconButton } from "../../../components/ui/ActionButton.jsx";
 import Button from "../../../components/ui/Button.jsx";
 import { formatWeightWithQuantity } from "../../../utils/cartWeight.js";
 
+import { useNavigate } from "react-router-dom";
+
 export default function AccountCart() {
+  const navigate = useNavigate();
   const { items, increment, decrement, totalSum } = useCart();
 
   const handleCheckout = () => {
-    window.alert("Оформление заказа будет доступно в следующей версии.");
+    navigate("/account/checkout");
   };
 
   if (items.length === 0) {

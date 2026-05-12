@@ -127,6 +127,7 @@ CREATE TABLE `orders` (
   `total_price` decimal(10,2) NOT NULL,
   `delivery_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `comment` text COLLATE utf8mb4_unicode_ci,
+  `checkout_snapshot` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `delivery_datetime` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

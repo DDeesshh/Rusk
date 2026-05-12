@@ -1,0 +1,197 @@
+.checkout.account .account__overlay {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+@media (max-width: 768px) {
+  .checkout.account .account__overlay {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.checkout__back {
+  margin: 0 0 1rem;
+  text-align: left;
+}
+
+.checkout__back-link {
+  font-family: "Merriweather", serif;
+  font-size: 15px;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.checkout__back-link:hover {
+  text-decoration: underline;
+}
+
+.checkout.account .checkout__title {
+  margin-bottom: 2.85rem;
+}
+
+.checkout__intro {
+  font-family: "Merriweather", serif;
+  font-weight: 300;
+  font-size: 15px;
+  text-align: center;
+  max-width: 42rem;
+  margin: 0 auto 3.25rem;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.checkout__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 2.5rem;
+  max-width: 920px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.checkout__col {
+  display: flex;
+  flex-direction: column;
+  gap: 2.35rem;
+}
+
+/* Заголовок секции и поля под ним — одинаковый зазор (без «двойных» margin) */
+.checkout__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-accent-heading-to-field);
+}
+
+.checkout__section-title {
+  margin: 0;
+  font-family: "Merriweather", serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+}
+
+.checkout__inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: stretch;
+  width: 100%;
+}
+
+.checkout__inputs--align-start {
+  align-items: stretch;
+  width: 100%;
+}
+
+.checkout__radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2rem;
+  margin: 0;
+}
+
+.checkout__hint {
+  font-family: "Merriweather", serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-color);
+  margin: 0;
+  text-align: left;
+}
+
+/* Больше воздуха между подсказкой и заголовком «Комментарий» */
+.checkout__hint + .checkout__section-title {
+  margin-top: 1.75rem;
+}
+
+.checkout__address-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem 1.5rem;
+  width: 100%;
+}
+
+.checkout__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-section-block-gap);
+  max-width: 920px;
+  margin: 2.5rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--primary-color) 25%, transparent);
+}
+
+.checkout__pickup-info {
+  font-family: "Merriweather", serif;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.checkout__pickup-info p {
+  margin: 0;
+}
+
+.checkout__pickup-info p:not(:last-child) {
+  margin-bottom: 1.35rem;
+}
+
+.checkout__pickup-label {
+  color: var(--primary-color);
+  font-weight: 500;
+  margin-right: 0.35rem;
+}
+
+.checkout__total {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: 0;
+  font-family: "Merriweather", serif;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-color);
+}
+
+.checkout__total-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+.checkout__total-sum {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.checkout__submit {
+  display: flex;
+  justify-content: center;
+}
+
+.checkout__submit-error {
+  max-width: 42rem;
+  margin: 0 auto 1rem;
+  text-align: center;
+  color: #dc3545;
+  font-family: "Merriweather", serif;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .checkout__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .checkout__address-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -7,6 +7,8 @@ import AccountFavorites from "./components/AccountFavorites.jsx";
 import AccountCart from "./components/AccountCart.jsx";
 import AccountAdminClients from "./components/AccountAdminClients.jsx";
 import AccountAdminApplications from "./components/AccountAdminApplications.jsx";
+import AccountAdminOrders from "./components/AccountAdminOrders.jsx";
+import AccountOrderHistory from "./components/AccountOrderHistory.jsx";
 import "./Account.css";
 
 const getTabsByRole = (role) => {
@@ -93,6 +95,14 @@ export default function Account() {
       return <AccountAdminApplications />;
     }
 
+    if (activeTab === "orders" && userRole === "admin") {
+      return <AccountAdminOrders />;
+    }
+
+    if (activeTab === "history" && userRole === "client") {
+      return <AccountOrderHistory />;
+    }
+
     return (
       <div className="account__stub">
         <p>Эта вкладка будет сверстана следующей.</p>
@@ -105,7 +115,7 @@ export default function Account() {
   const isClientWideTab = isFavoritesClient || isCartClient;
   const isAdminWideTab =
     userRole === "admin" &&
-    (activeTab === "clients" || activeTab === "applications");
+    (activeTab === "clients" || activeTab === "applications" || activeTab === "orders");
 
   return (
     <div className="account">
@@ -130,7 +140,7 @@ export default function Account() {
 
           {isClientWideTab ? (
             <div className="container menu">
-              <div className="content">
+              <div className="account-client-panel">
                 {isFavoritesClient ? <AccountFavorites /> : <AccountCart />}
               </div>
             </div>

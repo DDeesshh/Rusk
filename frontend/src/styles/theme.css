@@ -1,3 +1,9 @@
+/* Отступы форм: золотой подзаголовок → поля; между блоками секций */
+:root {
+  --form-accent-heading-to-field: 0.5rem;
+  --form-section-block-gap: 1.5rem;
+}
+
 /* Светлая тема */
 .light-theme {
   --add-color: #ffffff;
@@ -11,6 +17,7 @@
   --input-icon-color: invert(0); /* для календаря и часов*/
   --bg-image: url('/img/bg-light.jpg');
   --scroll-color: #9b8360;
+  --account-table-divider: color-mix(in srgb, var(--primary-color) 18%, transparent);
 }
 
 /* Темная тема */
@@ -26,4 +33,5 @@
   --input-icon-color: invert(1); /* для календаря и часов*/
   --bg-image: url('/img/bg-dark.jpg');
   --scroll-color: #7b7b7b;
+  --account-table-divider: color-mix(in srgb, var(--primary-color) 18%, transparent);
 }

@@ -2,12 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import Input from "../../../components/ui/Input.jsx";
 import Button from "../../../components/ui/Button.jsx";
 import { useAuth } from "../../../contexts/AuthContext.jsx";
+import AccountOrderDetails from "./AccountOrderDetails.jsx";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^\+7\d{10}$/;
 
 export default function UserProfile({ user }) {
-  const { updateProfile } = useAuth();
+  const { updateProfile, userRole } = useAuth();
   const initialForm = useMemo(
     () => ({
       name: user?.name || "",
@@ -142,6 +143,8 @@ export default function UserProfile({ user }) {
           {message}
         </p>
       ) : null}
+
+      {userRole === "client" ? <AccountOrderDetails /> : null}
     </div>
   );
 }

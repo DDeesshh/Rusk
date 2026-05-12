@@ -102,6 +102,10 @@ export function CartProvider({ children }) {
     [items]
   );
 
+  const clearCart = useCallback(() => {
+    setItems([]);
+  }, []);
+
   const value = useMemo(
     () => ({
       items,
@@ -110,8 +114,9 @@ export function CartProvider({ children }) {
       decrement,
       totalQuantity,
       totalSum,
+      clearCart,
     }),
-    [items, addItem, increment, decrement, totalQuantity, totalSum]
+    [items, addItem, increment, decrement, totalQuantity, totalSum, clearCart]
   );
 
   return (

@@ -6,6 +6,7 @@ import About from "./pages/about/About.jsx";
 import Menu from './pages/menu/Menu.jsx';
 import Contacts from './pages/contacts/Contacts.jsx';
 import Account from './pages/account/Account.jsx';
+import Checkout from './pages/account/Checkout.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { useAuth } from './contexts/AuthContext.jsx';
 
@@ -33,6 +34,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Account />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/account/checkout"
+          element={
+            <ProtectedRoute>
+              <Checkout />
             </ProtectedRoute>
           }
         />

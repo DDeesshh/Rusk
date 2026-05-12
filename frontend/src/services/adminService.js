@@ -28,3 +28,24 @@ export async function fetchAdminReservations(token) {
   if (!res.ok) throw new Error(await parseError(res, "Ошибка загрузки заявок"));
   return res.json();
 }
+
+export async function fetchAdminOrders(token) {
+  const res = await fetch(`${API_BASE}/api/admin/orders`, {
+    headers: { ...authHeader(token) },
+  });
+  if (!res.ok) throw new Error(await parseError(res, "Ошибка загрузки заказов"));
+  return res.json();
+}
+
+export async function patchAdminOrderStatus(token, orderId, status) {
+  const res = await fetch(`${API_BASE}/api/admin/orders/${orderId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeader(token),
+    },
+    body: JSON.stringify({ status }),
+  });
+  if (!res.ok) throw new Error(await parseError(res, "Не удалось сохранить статус"));
+  return res.json();
+}

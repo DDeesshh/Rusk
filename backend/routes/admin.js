@@ -99,4 +99,75 @@ router.get(
   }
 );
 
+const ORDER_STATUSES = ["new", "confirmed", "cooking", "delivered", "completed", "cancelled"];
+
+function formatOrderDisplayNumber(id) {
+  return String(100000000 + Number(id)).slice(1);
+}
+
+router.get(
+  "/orders",
+  authMiddleware,
+  rolesMiddleware("admin"),
+  async (_req, res) => {
+    try {
+      const [rows] = await pool.query(
+        `SELECT o.id, o.user_id, o.status, o.delivery_type, o.total_price, o.created_at,
+                u.name AS client_name
+         FROM orders o
+         JOIN users u ON u.id = o.user_id
+         ORDER BY o.created_at DESC, o.id DESC`
+      );
+
+      const orders = rows.map((row) => ({
+        id: row.id,
+        displayNumber: formatOrderDisplayNumber(row.id),
+        client_name: row.client_name || "—",
+        status: row.status,
+        delivery_type: row.delivery_type,
+        total_price: row.total_price,
+        created_at:
+          row.created_at instanceof Date
+            ? row.created_at.toISOString()
+            : row.created_at || null,
+      }));
+
+      res.json({ orders });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Ошибка загрузки заказов" });
+    }
+  }
+);
+
+router.patch(
+  "/orders/:id",
+  authMiddleware,
+  rolesMiddleware("admin"),
+  async (req, res) => {
+    try {
+      const orderId = Number(req.params.id);
+      if (!Number.isInteger(orderId) || orderId < 1) {
+        return res.status(400).json({ error: "Некорректный номер заказа" });
+      }
+
+      const status = String(req.body?.status || "").trim();
+      if (!ORDER_STATUSES.includes(status)) {
+        return res.status(400).json({ error: "Некорректный статус" });
+      }
+
+      const [result] = await pool.query("UPDATE orders SET status = ? WHERE id = ?", [status, orderId]);
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: "Заказ не найден" });
+      }
+
+      res.json({ ok: true, id: orderId, status });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Не удалось обновить статус" });
+    }
+  }
+);
+
 export default router;

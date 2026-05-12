@@ -74,6 +74,7 @@
   text-align: center;
   vertical-align: middle;
   border: none;
+  border-bottom: 1px solid var(--account-table-divider, color-mix(in srgb, var(--primary-color) 18%, transparent));
   overflow-wrap: anywhere;
   word-break: break-word;
 }
@@ -157,6 +158,27 @@
   margin-top: 1.75rem;
 }
 
+.account-admin-orders__status {
+  width: 100%;
+  max-width: 13.5rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  font-family: "Merriweather", serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-color);
+  background: color-mix(in srgb, var(--decorate-bg) 65%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary-color) 40%, transparent);
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.account-admin-orders__status:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
 @media (max-width: 768px) {
   .account-admin-table-outer {
     overflow-x: auto;
@@ -173,6 +195,14 @@
 
   .account-admin-table--cart {
     min-width: 560px;
+  }
+
+  .account-admin-table--history {
+    min-width: 640px;
+  }
+
+  .account-admin-table--orders {
+    min-width: 720px;
   }
 }
 
@@ -219,6 +249,240 @@
   color: #dc3545;
 }
 
+.account-order {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid color-mix(in srgb, var(--primary-color) 22%, transparent);
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.account-order__page-title {
+  text-align: center;
+  margin: 0 0 1.5rem;
+  font-family: "Playfair Display", serif;
+  font-weight: 500;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-color);
+}
+
+.account-order__muted,
+.account-order__error {
+  text-align: center;
+  font-family: "Merriweather", serif;
+  font-size: 15px;
+}
+
+.account-order__muted {
+  color: var(--default-font-input);
+}
+
+.account-order__error {
+  color: #dc3545;
+}
+
+.account-order__summary {
+  margin-bottom: 0.5rem;
+}
+
+.account-order__toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.35rem 0;
+  margin: 0 0 0.75rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.account-order__toggle:hover .account-order__number {
+  text-decoration: underline;
+}
+
+.account-order__number {
+  font-family: "Merriweather", serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.account-order__chevron {
+  font-size: 0.75rem;
+  color: var(--text-color);
+}
+
+.account-order__meta {
+  margin: 0.35rem 0;
+  text-align: center;
+  font-family: "Merriweather", serif;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.account-order__meta-label {
+  color: var(--primary-color);
+  font-weight: 500;
+  margin-right: 0.25rem;
+}
+
+.account-order__details {
+  margin-top: 1.25rem;
+}
+
+.account-order__table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 2.5rem;
+}
+
+.account-order__table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-family: "Merriweather", serif;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.account-order__table th,
+.account-order__table td {
+  padding: 10px 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--account-table-divider, color-mix(in srgb, var(--primary-color) 18%, transparent));
+}
+
+.account-order__table thead th {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  vertical-align: bottom;
+}
+
+.account-order__delivery-line {
+  margin: 0 0 1.25rem;
+  font-family: "Merriweather", serif;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.account-order__caption {
+  display: block;
+  font-family: "Merriweather", serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+}
+
+.account-order__delivery-line .account-order__caption {
+  display: inline;
+}
+
+.account-order__delivery-type {
+  font-family: "Merriweather", serif;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--text-color);
+}
+
+.account-order__readonly-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.account-order__readonly-grid--2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.account-order__pickup-comment {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.account-order__field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--form-accent-heading-to-field, 0.5rem);
+  text-align: left;
+}
+
+.account-order__input-mimic {
+  display: block;
+  width: 100%;
+  max-width: 256px;
+  box-sizing: border-box;
+  font-family: "Merriweather", serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--text-color);
+  padding: 0 0 6px 20px;
+  margin: 0;
+  border: none;
+  border-bottom: 1.5px solid var(--text-color);
+  background: transparent;
+  min-height: 1.5em;
+  word-break: break-word;
+  align-self: center;
+}
+
+.account-order__footer-meta {
+  font-family: "Merriweather", serif;
+  font-size: 14px;
+  color: var(--text-color);
+  margin: 2.35rem 0 1rem;
+}
+
+.account-order__footer-meta p {
+  margin: 0.35rem 0;
+}
+
+.account-order__total {
+  text-align: center;
+  font-family: "Merriweather", serif;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 0.5rem;
+}
+
+.account-order__total-caption {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.account-order__total-sum {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-color);
+  text-transform: none;
+}
+
+/* Избранное / корзина: без двойного вертикального отступа глобального .content (margin 6.875rem) */
+.account-client-panel {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 0.75rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
 /* Сетка как у меню: отступы задаёт .menu-category__list в Menu.css */
 .account-favorites__list {
   margin-top: 0;
@@ -231,6 +495,11 @@
 }
 
 @media (max-width: 768px) {
+  .account-order__readonly-grid,
+  .account-order__readonly-grid--2 {
+    grid-template-columns: 1fr;
+  }
+
   .account__overlay {
     padding: 4rem 0;
   }
