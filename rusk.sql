@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3307
--- Время создания: Апр 22 2026 г., 21:22
+-- Время создания: Май 12 2026 г., 18:45
 -- Версия сервера: 5.6.51
 -- Версия PHP: 8.1.9
 
@@ -52,7 +52,10 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `name`, `description`) VALUES
 (1, 'Супы', ''),
-(2, 'Горячее', NULL);
+(2, 'Горячее', NULL),
+(3, 'Салаты', NULL),
+(4, 'Закуски', NULL),
+(5, 'Десерты', NULL);
 
 -- --------------------------------------------------------
 
@@ -92,7 +95,22 @@ INSERT INTO `menu_items` (`id`, `category_id`, `name`, `ingredients`, `price`, `
 (2, 1, 'Солянка', 'Мясной бульон, говядина, соленые огурцы, лук, оливки', '600', '350Г', 'uploads/solyanka.webp', '2026-03-02 19:00:29'),
 (3, 1, 'Щи', 'Капуста, свинина, картофель, морковь, перец, зелень', '430', '300Г', 'uploads/shchi.webp', '2026-03-02 19:01:34'),
 (4, 1, 'Уха', 'Щука, картофель, морковь, лук, перец, зелень, лимон', '650', '400Г', 'uploads/ykha.webp', '2026-03-02 19:02:57'),
-(5, 2, 'Пельмени', 'Фарш говядины, лук, перец, специи, зелень', '500', '300Г', 'uploads/pelmeni.webp', '2026-03-02 19:07:47');
+(5, 2, 'Пельмени', 'Фарш говядины, лук, перец, специи, зелень', '500', '300Г', 'uploads/pelmeni.webp', '2026-03-02 19:07:47'),
+(6, 2, 'Бефстроганов', 'Говядина, лук, сметана, масло растительное, грибы', '650', '250Г', 'uploads/beefstroganoff.webp', '2026-04-22 20:42:22'),
+(7, 2, 'Голубцы', 'Капуста, фарш, рис, лук, морковь, перец', '490', '350Г', 'uploads/golubtsy.webp', '2026-04-22 20:44:58'),
+(8, 3, 'Крабовый', 'Крабовые палочки, рис, кукуруза, яйца, укроп, соль.', '370', '200Г', 'uploads/krabovyy.webp', '2026-04-22 20:48:58'),
+(9, 3, 'Мимоза', 'Тунец, яйца, картофель, морковь, лук, зелень, майонез', '540', '220Г', 'uploads/mimoza.webp', '2026-04-22 20:49:42'),
+(10, 3, 'Столичный', 'Куриное филе, картофель, морковь, огурцы, яйца', '490', '210Г', 'uploads/stolichnyy.webp', '2026-04-22 20:50:40'),
+(11, 3, 'Сельдь под шубой', 'Сельдь слабосоленая, картофель, морковь, свёкла, яйца, лук', '390', '190Г', 'uploads/sel_d.webp', '2026-04-22 20:51:27'),
+(12, 4, 'Мясной рулет', 'Свинина, говядина, лук, чеснок, специи, зелень', '650', '150Г', 'uploads/rulet.webp', '2026-04-22 20:55:39'),
+(13, 4, 'Грибы в сметане', 'Грибы, сметана, лук, сливочное масло, специи', '390', '150Г', 'uploads/griby.webp', '2026-04-22 20:56:21'),
+(14, 4, 'Тосты с икрой', 'Багет, сливочное масло красная икра, зелень', '750', '110Г', 'uploads/tosty.webp', '2026-04-22 20:57:06'),
+(15, 4, 'Копченная рыба', 'Форель, укроп, лимон, оливковое масло', '470', '220Г', 'uploads/ryuba.webp', '2026-04-22 20:58:02'),
+(16, 5, 'Яблочный пирог', 'Яблоки, тесто, сливочное масло, яблочный сироп', '390', '160Г', 'uploads/pirog.webp', '2026-04-22 21:10:07'),
+(17, 5, 'Медовик', 'Мука, сахар, яйца, сливочное масло, мёд, сметана', '420', '150Г', 'uploads/medovik.webp', '2026-04-22 21:10:07'),
+(18, 5, 'Блины со сгущенкой', 'Мука, яйца, молоко, сахар, сгущённое молоко', '340', '160Г', 'uploads/bliny.webp', '2026-04-22 21:11:18'),
+(19, 5, 'Пряники', 'Мука, мед, сахар, яйца, сливочное масло', '280', '100Г', 'uploads/pryaniki.webp', '2026-04-22 21:11:18'),
+(20, 2, 'Тельная рыба', 'Филе трески, яичный кляр, овощи, специи, зелень', '550', '290Г', 'uploads/telnaya.webp', '2026-04-22 21:13:30');
 
 -- --------------------------------------------------------
 
@@ -144,8 +162,22 @@ CREATE TABLE `reservations` (
   `guests_count` int(11) NOT NULL,
   `status` enum('pending','confirmed','cancelled') COLLATE utf8mb4_unicode_ci DEFAULT 'pending',
   `comment` text COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `confirmation_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `confirmation_sent_at` datetime DEFAULT NULL,
+  `reminder_sent` tinyint(1) NOT NULL DEFAULT '0',
+  `is_confirmed_by_user` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `reservations`
+--
+
+INSERT INTO `reservations` (`id`, `user_id`, `name`, `phone`, `email`, `date`, `time`, `guests_count`, `status`, `comment`, `created_at`, `confirmation_token`, `confirmation_sent_at`, `reminder_sent`, `is_confirmed_by_user`) VALUES
+(1, NULL, 'Оля', '+79916426843', 'salnikovadara068@gmail.com', '2026-04-22', '22:37:00', 1, 'confirmed', '111', '2026-04-22 19:35:06', '08729b7b6e349c6c1e82771e184c99409910593c69387a18c68dd33d814ed404', '2026-04-22 22:40:01', 1, 1),
+(2, NULL, 'Тест', '+79991234567', 'test@example.com', '2026-04-23', '19:30:00', 3, 'pending', 'Стол у окна', '2026-04-22 19:40:17', '924383d9a57293d1e88ef256642bc0e5695e86e3ebae444f47651959c0e3bb66', '2026-04-23 00:20:02', 1, NULL),
+(3, NULL, 'Гвен', '+79991234567', '9853491653@mail.ru', '2026-04-23', '20:30:00', 3, 'pending', 'Стол у окна', '2026-04-22 19:59:45', 'd81ee10342e8d5550811354ed4e62e9d19dc1112aa4ba271389d37df6e21b403', '2026-04-23 00:20:03', 1, NULL),
+(4, NULL, 'Гвен', '+79991234567', '9853491653@mail.ru', '2026-04-23', '12:30:00', 3, 'pending', 'Стол у окна', '2026-04-22 20:00:07', 'db23c89d99dc0020a038aac9fa4fcefd3b19d1bb004f0abea9a01e91ad9c7bfa', '2026-04-23 00:20:05', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -178,6 +210,16 @@ CREATE TABLE `users` (
   `role` enum('client','admin') COLLATE utf8mb4_unicode_ci DEFAULT 'client',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `date_birth`, `role`, `created_at`) VALUES
+(1, 'Софья', 'sofia@2003.ru', '$2b$10$GXYaAhvk4hNpKJmmVVcVfuzqLdf7WZ8unaEjjrpOpU.Q15B5lUS..', '+79916426843', '2004-01-21', 'client', '2026-04-22 18:44:57'),
+(2, 'Яс', 'ссс@222.ru', '$2b$10$/.FNxD4HCm/SDcdpDVKNMeCL84TU6SAb.kieVtexAK6.UJ8TXAgXS', '+79256296051', '2006-01-10', 'client', '2026-04-22 18:55:22'),
+(3, 'Анастасия', '123@mail.ru', '$2b$10$.XXqnne83S1hFQszoQwkgOkzKkaA83j75gdd7kx8yWj1YgLO3axIa', '+79916426843', '2001-06-13', 'admin', '2026-05-08 06:50:57'),
+(4, 'Яна', '111@mail.ru', '$2b$10$pOkkEY6W8yljb.rGQqtelez4MUlRnnHVKvliR4sYKEzRTjsxihnLq', '+79916426677', '2000-01-19', 'client', '2026-05-12 13:55:20');
 
 --
 -- Индексы сохранённых таблиц
@@ -232,7 +274,9 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `reservations`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_reservation_user` (`user_id`);
+  ADD KEY `fk_reservation_user` (`user_id`),
+  ADD KEY `idx_reservations_date_status` (`date`,`status`),
+  ADD KEY `idx_reservations_email` (`email`);
 
 --
 -- Индексы таблицы `reviews`
@@ -263,19 +307,19 @@ ALTER TABLE `cart_items`
 -- AUTO_INCREMENT для таблицы `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT для таблицы `menu_items`
 --
 ALTER TABLE `menu_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT для таблицы `orders`
@@ -293,7 +337,7 @@ ALTER TABLE `order_items`
 -- AUTO_INCREMENT для таблицы `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `reviews`
@@ -305,7 +349,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -6,6 +6,27 @@ import { Modal } from "../components/ui/Modal.jsx";
 import Input from "../components/ui/Input.jsx";
 import Button from "../components/ui/Button.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
+import { useCart } from "../contexts/CartContext.jsx";
+
+function ClientCartNav() {
+  const navigate = useNavigate();
+  const { totalQuantity } = useCart();
+  return (
+    <span className="header__cart-wrap">
+      <IconButton
+        type="button"
+        className="icon-cart"
+        onClick={() => navigate("/account?tab=cart")}
+        aria-label="Корзина"
+      />
+      {totalQuantity > 0 ? (
+        <span className="header__cart-badge">
+          {totalQuantity > 99 ? "99+" : totalQuantity}
+        </span>
+      ) : null}
+    </span>
+  );
+}
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^\+7\d{10}$/;
@@ -150,9 +171,11 @@ export const useUserRoles = () => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e?.preventDefault?.();
     logout();
     navigate("/");
+    setCurrentModal("loggedOut");
   };
 
   const authButton = (() => {
@@ -170,8 +193,11 @@ export const useUserRoles = () => {
       return (
         <>
           <IconButton className="icon-user" onClick={() => navigate("/account")} />
-          <IconButton className="icon-saved" />
-          <IconButton className="icon-cart" />
+          <IconButton
+            className="icon-saved"
+            onClick={() => navigate("/account?tab=favorites")}
+          />
+          <ClientCartNav />
         </>
       );
     }
@@ -302,6 +328,17 @@ export const useUserRoles = () => {
             <div  className="d-flex justify-content-center">
               <Button text="Ок" onClick={closeModal} />
             </div>
+          </div>
+        }
+      />
+    ) : currentModal === "loggedOut" ? (
+      <Modal
+        title="Выход из аккаунта"
+        onClose={closeModal}
+        body={<p className="text-center">Вы вышли из аккаунта.</p>}
+        footer={
+          <div className="d-flex justify-content-center">
+            <Button text="Ок" onClick={closeModal} />
           </div>
         }
       />

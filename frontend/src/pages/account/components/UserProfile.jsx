@@ -73,8 +73,11 @@ export default function UserProfile({ user }) {
     }
   };
 
+  const displayName = user?.name?.trim() || "Гость";
+
   return (
     <div className="account-profile">
+      <h1 className="account__title">Здравствуйте, {displayName}!</h1>
       <p className="account-profile__text">
         Lorem ipsum dolor sit amet consectetur. Enim consequat porttitor purus
         purus vitae. Mauris convallis ornare proin lacinia fames feugiat amet.
@@ -113,6 +116,8 @@ export default function UserProfile({ user }) {
           value="Для смены пароля нужен отдельный экран"
           disabled
         />
+      </div>
+      <div className="account-profile__birth">
         <Input
           name="date_birth"
           placeholder="Дата рождения"

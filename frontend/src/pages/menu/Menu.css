@@ -53,16 +53,6 @@
     color: var(--primary-color);
 }
 
-.menu-item__actions {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    top: 0px;
-    bottom: 0;
-    justify-content: space-between;
-    left: 0;
-}
-
 /* ---------- MenuCategory ---------- */
 
 .menu-category{

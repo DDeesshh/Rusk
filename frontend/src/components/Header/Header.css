@@ -48,6 +48,30 @@ header {
     margin-left: var(--gap-lg);
 }
 
+.header__cart-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.header__cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 1.125rem;
+    height: 1.125rem;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--text-color);
+    color: var(--decorate-bg);
+    font-family: "Merriweather", serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    line-height: 1.125rem;
+    text-align: center;
+    pointer-events: none;
+}
+
 .header__btn-switch {
     gap: 4rem;
     display: flex;
