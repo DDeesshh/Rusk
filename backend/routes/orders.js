@@ -240,7 +240,7 @@ router.get("/my", async (req, res) => {
   }
 });
 
-/** Последний «текущий» заказ: не выдан, не получен и не отменён */
+/** Последний «текущий» заказ: не выдан, не получен и не отменен */
 const CURRENT_ORDER_STATUSES = ["new", "confirmed", "cooking"];
 
 router.get("/my/latest", async (req, res) => {

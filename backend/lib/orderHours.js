@@ -30,7 +30,7 @@ export function isDeliveryNightBlocked(timeStr) {
   return t >= 23 * 60 || t < 7 * 60;
 }
 
-/** Последняя минута доставки с учётом ночного запрета и часов ресторана. */
+/** Последняя минута доставки с учетом ночного запрета и часов ресторана. */
 export function deliveryLastMinute(dateStr) {
   const restaurantLast = isWeekdayDateString(dateStr) ? 21 * 60 : 24 * 60 - 1;
   const nightCap = 23 * 60 - 1; // до 22:59 включительно из-за блока с 23:00

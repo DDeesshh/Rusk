@@ -1,5 +1,5 @@
 /**
- * Масштабирует подпись веса/объёма (нап. "200 г", "250 мл") при изменении количества порций.
+ * Масштабирует подпись веса/объема (нап. "200 г", "250 мл") при изменении количества порций.
  */
 export function formatWeightWithQuantity(weightLabel, quantity) {
   if (!weightLabel || quantity < 1) return weightLabel || "—";

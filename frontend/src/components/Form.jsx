@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import Input from "./ui/Input";
 import Button from "./ui/Button";
+import { Modal } from "./ui/Modal.jsx";
 import { createReservationRequest } from "../services/reservationService.js";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,6 +33,7 @@ const Form = () => {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [serverMessage, setServerMessage] = useState("");
+    const [successModal, setSuccessModal] = useState({ open: false, message: "" });
     const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
     const workingHoursHint = form.date
         ? <p>Доступное время в выбранный день: {getWorkingHoursByDate(form.date).label}</p>
@@ -107,7 +109,13 @@ const Form = () => {
                 comment: form.comment.trim(),
             };
             const data = await createReservationRequest(payload);
-            setServerMessage(data.message || "Заявка успешно отправлена");
+            setServerMessage("");
+            setSuccessModal({
+                open: true,
+                message:
+                    data.message ||
+                    "Заявка на бронь принята. Мы отправили письмо на ваш email.",
+            });
             setForm(defaultForm);
             setErrors({});
         } catch (error) {
@@ -117,8 +125,24 @@ const Form = () => {
         }
     };
 
+    const closeSuccessModal = () => {
+        setSuccessModal({ open: false, message: "" });
+    };
+
     return (
         <>
+            {successModal.open ? (
+                <Modal
+                    title="Заявка принята"
+                    body={
+                        <p className="mb-0" style={{ lineHeight: 1.65, textAlign: "center" }}>
+                            {successModal.message}
+                        </p>
+                    }
+                    footer={<Button text="Ок" onClick={closeSuccessModal} />}
+                    onClose={closeSuccessModal}
+                />
+            ) : null}
             <div className="d-flex flex-column gap-4 align-items-md-center" id="booking-form">
                 <Input
                     name="name"
@@ -196,11 +220,9 @@ const Form = () => {
                     onClick={handleSubmit}
                 />
             </div>
-            {serverMessage && (
-                <p className={`mt-3 ${serverMessage.includes("успеш") || serverMessage.includes("принята") ? "text-success" : "text-danger"}`}>
-                    {serverMessage}
-                </p>
-            )}
+            {serverMessage ? (
+                <p className="mt-3 text-danger">{serverMessage}</p>
+            ) : null}
         </>
     );
 };

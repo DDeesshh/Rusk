@@ -483,7 +483,7 @@
   width: 100%;
 }
 
-/* Сетка как у меню: отступы задаёт .menu-category__list в Menu.css */
+/* Сетка как у меню: отступы задает .menu-category__list в Menu.css */
 .account-favorites__list {
   margin-top: 0;
 }

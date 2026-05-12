@@ -4,7 +4,7 @@ const LABELS = {
   cooking: "Готовится",
   delivered: "Выдан",
   completed: "Получен",
-  cancelled: "Отменён",
+  cancelled: "Отменен",
 };
 
 export function orderStatusLabel(status) {
