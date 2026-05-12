@@ -1,6 +1,6 @@
 export const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
-/** Картинки блюд лежат в `frontend/public/uploads` — грузим с того же origin, что и SPA (`/uploads/...`). */
+/** Картинки блюд лежат в `frontend/public/uploads` – грузим с того же origin, что и SPA (`/uploads/...`). */
 export function mediaUrl(imgPath) {
   if (!imgPath) return "";
   const s = String(imgPath);

@@ -208,7 +208,7 @@ export default function Checkout() {
             <>
               <p className="checkout__order-success-number">№{successModal.displayNumber}</p>
               <p className="checkout__order-success-text">
-                Статус заказа можно отслеживать в личном кабинете в разделе «Данные пользователя» — блок «Детали заказа».
+                Статус заказа можно отслеживать в личном кабинете в разделе «Данные пользователя» – блок «Детали заказа».
               </p>
             </>
           }
@@ -227,7 +227,7 @@ export default function Checkout() {
             </p>
             <h1 className="checkout__title account__title">Оформление заказа</h1>
             <p className="checkout__intro">
-              Проверьте данные и способ получения. Заказ сохраняется в личном кабинете — статус можно отслеживать в блоке «Детали заказа».
+              Проверьте данные и способ получения. Заказ сохраняется в личном кабинете – статус можно отслеживать в блоке «Детали заказа».
             </p>
 
             {submitError ? <p className="checkout__submit-error">{submitError}</p> : null}

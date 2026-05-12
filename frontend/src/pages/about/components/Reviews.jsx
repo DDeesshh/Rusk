@@ -1,92 +1,171 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import ActionButton, { IconButton } from "../../../components/ui/ActionButton.jsx";
 import { Icon } from "../../../components/ui/IconDecorate.jsx";
 import { Modal } from "../../../components/ui/Modal.jsx";
-import Input from "../../../components/ui/Input.jsx";
 import Button from "../../../components/ui/Button.jsx";
+import { useAuth } from "../../../contexts/AuthContext.jsx";
+import { createReview, deleteReview, fetchReviews } from "../../../services/reviewService.js";
 import "swiper/css";
 import "swiper/css/navigation";
 
-const reviewsData = [
-    { id: 1, text: "Очень понравилось, всё вкусно!", author: "Анна" },
-    { id: 2, text: "Отличный сервис и уютная атмосфера.", author: "Игорь" },
-    { id: 3, text: "Настоящая русская кухня, рекомендую!", author: "Мария" },
-    { id: 4, text: "Были с друзьями, всем зашло!", author: "Алексей" },
-    { id: 5, text: "Прекрасные блюда и внимательный персонал.", author: "Светлана" },
-    { id: 6, text: "Будем приходить снова и снова.", author: "Олег" },
-];
+function formatReviewDate(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "";
+    return d.toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" });
+}
 
 export default function Reviews({ userRole = "guest" }) {
-    const [reviews, setReviews] = useState(reviewsData);
+    const { token } = useAuth();
+    const [reviews, setReviews] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [loadError, setLoadError] = useState("");
     const [showModal, setShowModal] = useState(false);
-    const [newReview, setNewReview] = useState({ text: "", author: "" });
+    const [newText, setNewText] = useState("");
+    const [submitError, setSubmitError] = useState("");
+    const [submitting, setSubmitting] = useState(false);
+    const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+    const [deleteSubmitting, setDeleteSubmitting] = useState(false);
 
-    const handleDelete = (id) => {
-        setReviews((prev) => prev.filter((r) => r.id !== id));
+    const loadReviews = useCallback(async () => {
+        setLoading(true);
+        setLoadError("");
+        try {
+            const data = await fetchReviews();
+            setReviews(data.reviews || []);
+        } catch (e) {
+            setLoadError(e.message || "Не удалось загрузить отзывы");
+            setReviews([]);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        loadReviews();
+    }, [loadReviews]);
+
+    const closeDeleteModal = () => {
+        if (deleteSubmitting) return;
+        setDeleteConfirmId(null);
     };
 
-    const handleAdd = () => {
-        if (!newReview.text || !newReview.author) return;
-        const newItem = {
-            id: Date.now(),
-            text: newReview.text,
-            author: newReview.author,
-        };
-        setReviews([newItem, ...reviews]);
+    const confirmDeleteReview = async () => {
+        if (!token || userRole !== "admin" || deleteConfirmId == null) return;
+        setDeleteSubmitting(true);
+        try {
+            await deleteReview(token, deleteConfirmId);
+            setReviews((prev) => prev.filter((r) => r.id !== deleteConfirmId));
+            setDeleteConfirmId(null);
+        } catch (e) {
+            alert(e.message || "Не удалось удалить отзыв");
+        } finally {
+            setDeleteSubmitting(false);
+        }
+    };
+
+    const handleAdd = async () => {
+        if (!token) return;
+        setSubmitError("");
+        const trimmed = newText.trim();
+        if (trimmed.length < 5) {
+            setSubmitError("Минимум 5 символов");
+            return;
+        }
+        setSubmitting(true);
+        try {
+            const data = await createReview(token, trimmed);
+            if (data.review) {
+                setReviews((prev) => [data.review, ...prev]);
+            } else {
+                await loadReviews();
+            }
+            setShowModal(false);
+            setNewText("");
+        } catch (e) {
+            setSubmitError(e.message || "Не удалось отправить отзыв");
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    const closeModal = () => {
         setShowModal(false);
-        setNewReview({ text: "", author: "" });
+        setSubmitError("");
+        setNewText("");
     };
 
     return (
         <div className="container reviews">
             <h1 className="reviews__title">Отзывы посетителей</h1>
 
+            {loadError ? <p className="reviews__load-error">{loadError}</p> : null}
+
             <div className="reviews__slider">
-                <Swiper
-                    modules={[Navigation]}
-                    navigation={{
-                        prevEl: ".reviews-prev",
-                        nextEl: ".reviews-next",
-                    }}
-                    spaceBetween={20}
-                    slidesPerView={3}
-                    breakpoints={{
-                        0: { slidesPerView: 1 },
-                        768: { slidesPerView: 2 },
-                        1200: { slidesPerView: 3 },
-                    }}
-                >
-                    {reviews.map((review) => (
-                        <SwiperSlide key={review.id}>
-                            <div className="reviews-item">
-                                <Icon className="icon-quote" size="30px" color="var(--primary-color)"
-                                />
-                                <div className="reviews-item__content">
-                                    <p className="mt-2">{review.text}</p>
-                                    <p className="reviews__author">{review.author}</p>
-                                </div>
-                                {userRole === "client" && (
-                                    <div className="reviews-item__actions">
-                                        <ActionButton
-                                            iconClass="icon-remove"
-                                            className="reviews__delete-btn"
-                                            onClick={() => handleDelete(review.id)}
-                                        />
+                {loading ? (
+                    <p className="reviews__empty">Загрузка…</p>
+                ) : reviews.length === 0 ? (
+                    <p className="reviews__empty">Пока нет отзывов – будьте первым.</p>
+                ) : (
+                    <Swiper
+                        modules={[Navigation]}
+                        navigation={{
+                            prevEl: ".reviews-prev",
+                            nextEl: ".reviews-next",
+                        }}
+                        spaceBetween={20}
+                        slidesPerView={3}
+                        breakpoints={{
+                            0: { slidesPerView: 1 },
+                            768: { slidesPerView: 2 },
+                            1200: { slidesPerView: 3 },
+                        }}
+                    >
+                        {reviews.map((review) => (
+                            <SwiperSlide key={review.id}>
+                                <div className="reviews-item">
+                                    <Icon
+                                        className="icon-quote"
+                                        size="30px"
+                                        color="var(--primary-color)"
+                                    />
+                                    <div className="reviews-item__content">
+                                        <p className="reviews-item__text mt-2">{review.text}</p>
+                                        <div className="reviews-item__meta">
+                                            <p className="reviews__author">{review.author}</p>
+                                            <time
+                                                className="reviews-item__date"
+                                                dateTime={review.createdAt || undefined}
+                                            >
+                                                {formatReviewDate(review.createdAt)}
+                                            </time>
+                                        </div>
                                     </div>
-                                )}
-                            </div>
+                                    {userRole === "admin" && (
+                                        <div className="reviews-item__actions">
+                                            <ActionButton
+                                                iconClass="icon-remove"
+                                                className="reviews__delete-btn"
+                                                onClick={() => setDeleteConfirmId(review.id)}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                )}
 
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-
-                <IconButton className="icon-arrow-left reviews-prev ms-lg-3" />
-                <IconButton className="icon-arrow-right reviews-next me-lg-3" />
+                {!loading && reviews.length > 0 ? (
+                    <>
+                        <IconButton className="icon-arrow-left reviews-prev ms-lg-3" />
+                        <IconButton className="icon-arrow-right reviews-next me-lg-3" />
+                    </>
+                ) : null}
             </div>
 
-            {/* Кнопка "написать отзыв" для клиента */}
             {userRole === "client" && (
                 <ActionButton
                     iconClass="icon-add"
@@ -95,40 +174,58 @@ export default function Reviews({ userRole = "guest" }) {
                 />
             )}
 
-            {/* Модальное окно для добавления отзыва */}
             {showModal && (
                 <Modal
                     title="Оставить отзыв"
-                    onClose={() => setShowModal(false)}
+                    onClose={closeModal}
                     body={
-                        <div className="d-flex flex-wrap justify-content-center gap-4">
-                            <Input
-                                name="name"
-                                placeholder="Имя"
-                                value={newReview.author}
-                                onChange={(e) =>
-                                    setNewReview({ ...newReview, author: e.target.value })
-                                }
-                                size='large'
-                            />
-                            <Input
+                        <div className="d-flex flex-column align-items-center gap-3">
+                            {submitError ? (
+                                <p className="reviews__submit-error mb-0">{submitError}</p>
+                            ) : null}
+                            <textarea
+                                className="reviews-modal__textarea"
                                 name="review"
-                                placeholder="Отзыв"
-                                value={newReview.text}
-                                onChange={(e) =>
-                                    setNewReview({ ...newReview, text: e.target.value })
-                                }
-                                size='large'
+                                placeholder="Ваш отзыв"
+                                rows={5}
+                                value={newText}
+                                onChange={(e) => setNewText(e.target.value)}
+                                maxLength={2000}
                             />
                         </div>
                     }
                     footer={
                         <div className="d-flex justify-content-center">
-                            <Button text="Отправить" onClick={handleAdd} />
+                            <Button
+                                text={submitting ? "Отправка…" : "Отправить"}
+                                onClick={handleAdd}
+                                disabled={submitting}
+                            />
                         </div>
                     }
                 />
             )}
+
+            {userRole === "admin" && deleteConfirmId !== null ? (
+                <Modal
+                    title="Удаление отзыва"
+                    onClose={closeDeleteModal}
+                    body={
+                        <p className="reviews__delete-confirm-text mb-0 text-center">
+                            Точно удалить комментарий?
+                        </p>
+                    }
+                    footer={
+                        <div className="d-flex flex-wrap justify-content-center gap-3">
+                            <Button
+                                text={deleteSubmitting ? "Удаление…" : "Удалить"}
+                                onClick={confirmDeleteReview}
+                                disabled={deleteSubmitting}
+                            />
+                        </div>
+                    }
+                />
+            ) : null}
         </div>
     );
 }

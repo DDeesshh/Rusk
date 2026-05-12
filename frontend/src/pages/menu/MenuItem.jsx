@@ -19,7 +19,7 @@ const MenuItem = ({
   const imgSrc = mediaUrl(img);
 
   return (
-    <div className="menu-item">
+    <div className="menu-item" id={`menu-dish-${item.id}`}>
       <div className="menu-item__image-wrapper">
         <img src={imgSrc} alt={title} className="menu-item__image" />
 

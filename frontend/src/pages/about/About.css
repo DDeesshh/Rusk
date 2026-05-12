@@ -4,6 +4,7 @@
 }
 
 .reviews-item {
+    position: relative;
     padding: 15px;
     background: var(--decorate-bg);
     height: 220px;
@@ -16,22 +17,93 @@
 .reviews-item__content {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    justify-content: flex-start;
+    gap: 0.35rem;
+}
+
+.reviews-item__text {
+    margin: 0;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+}
+
+.reviews-item__meta {
+    display: flex;
     justify-content: space-between;
-    height: 80%;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
 }
 
 .reviews__author {
     font-weight: 600;
 }
 
+.reviews-item__date {
+    margin: 0;
+    flex-shrink: 0;
+    font-family: "Merriweather", serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--text-color);
+    opacity: 0.85;
+}
+
 .reviews-item__actions {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    top: 8px;
+    right: 8px;
 }
 
 .reviews__add-btn {
     margin-top: 2rem;
+}
+
+.reviews-modal__textarea {
+    width: min(538px, 100%);
+    min-height: 120px;
+    box-sizing: border-box;
+    color: var(--text-color);
+    border: none;
+    border-bottom: 1.5px solid var(--text-color);
+    padding: 8px 20px 10px;
+    background-color: transparent;
+    font-family: "Merriweather", serif;
+    font-weight: 600;
+    font-size: 15px;
+    resize: vertical;
+}
+
+.reviews-modal__textarea:focus {
+    outline: none;
+    border: 1.5px solid var(--text-color);
+    padding: 7px 19px 9px;
+}
+
+.reviews-modal__textarea::placeholder {
+    color: var(--default-font-input, #888);
+}
+
+.reviews__load-error,
+.reviews__submit-error {
+    text-align: center;
+    color: #dc3545;
+    font-family: "Merriweather", serif;
+    font-size: 14px;
+    margin: 0 0 1rem;
+}
+
+.reviews__empty {
+    text-align: center;
+    font-family: "Merriweather", serif;
+    font-size: 15px;
+    color: var(--text-color);
+    margin: 0;
+    padding: 2rem 1rem;
 }
 
 .reviews-prev,

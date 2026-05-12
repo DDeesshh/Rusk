@@ -72,7 +72,7 @@ function ButtonWithTooltip({ iconClass, onClick, label }) {
   );
 }
 
-/* Меню (клиент): избранное — только левый верх фото (50% × 50%) */
+/* Меню (клиент): избранное – только левый верх фото (50% × 50%) */
 const DishMenuFavSlot = styled.div`
   position: absolute;
   top: 0;
@@ -113,7 +113,7 @@ export function DishImageActionFavorite({ isFavorite, onToggle, labelAdd, labelR
   );
 }
 
-/* Меню (клиент): в корзину — только левый низ фото (50% × 50%) */
+/* Меню (клиент): в корзину – только левый низ фото (50% × 50%) */
 const DishMenuCartSlot = styled.div`
   position: absolute;
   bottom: 0;
@@ -148,7 +148,7 @@ export function DishImageActionMenuCartAdd({ onClick, label = "В корзину
   );
 }
 
-/* Избранное в ЛК: только нижняя половина фото — убрать из избранного */
+/* Избранное в ЛК: только нижняя половина фото – убрать из избранного */
 const DishBottomOnlySlot = styled.div`
   position: absolute;
   bottom: 0;
@@ -182,7 +182,7 @@ export function DishImageActionRemoveFavorite({ onClick, tooltip = 'Убрать
   );
 }
 
-/* ЛК избранное: верхняя половина фото — в корзину */
+/* ЛК избранное: верхняя половина фото – в корзину */
 const DishTopHalfSlot = styled.div`
   position: absolute;
   top: 0;
@@ -221,7 +221,7 @@ export function DishImageActionAddToCartFavorite({ onClick, tooltip = "В кор
   );
 }
 
-/* Админ: удалить — только левый верх фото */
+/* Админ: удалить – только левый верх фото */
 const DishAdminDeleteSlot = styled.div`
   position: absolute;
   top: 0;
@@ -256,7 +256,7 @@ export function DishImageActionAdmin({ onClick, tooltip = 'Удалить блю
   );
 }
 
-/* Админ: редактировать — только левый низ фото */
+/* Админ: редактировать – только левый низ фото */
 const DishAdminEditSlot = styled.div`
   position: absolute;
   bottom: 0;

@@ -10,6 +10,42 @@ import { menuImageUpload, uploadsDir } from "../middleware/menuUpload.js";
 const router = express.Router();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+/** Топ блюд по сумме quantity в позициях заказов за текущий календарный месяц (по дате создания заказа). */
+router.get("/top-month", async (_req, res) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT
+         m.id,
+         m.name AS title,
+         m.image AS img,
+         COALESCE(c.name, 'Без категории') AS category,
+         SUM(oi.quantity) AS total_ordered
+       FROM order_items oi
+       INNER JOIN orders o ON o.id = oi.order_id
+       INNER JOIN menu_items m ON m.id = oi.menu_item_id
+       LEFT JOIN categories c ON c.id = m.category_id
+       WHERE o.status <> 'cancelled'
+         AND o.created_at >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
+         AND o.created_at < DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 1 MONTH), '%Y-%m-01')
+       GROUP BY m.id, m.name, m.image, c.id, c.name
+       ORDER BY total_ordered DESC
+       LIMIT 4`
+    );
+
+    const dishes = rows.map((row) => ({
+      id: row.id,
+      title: row.title,
+      img: row.img,
+      category: row.category,
+    }));
+
+    res.json({ dishes });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Ошибка загрузки популярных блюд" });
+  }
+});
+
 router.get("/", async (_req, res) => {
   try {
     const [rows] = await pool.query(`

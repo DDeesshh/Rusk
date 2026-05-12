@@ -52,6 +52,20 @@
     font-weight: 400;
 }
 
+.top-dishes__error {
+    font-family: "Merriweather", serif;
+    font-size: 14px;
+    color: #dc3545;
+    margin: 1rem 0 0;
+}
+
+.top-dishes__empty {
+    font-family: "Merriweather", serif;
+    font-size: 15px;
+    color: var(--text-color);
+    margin: 2rem 0 0;
+}
+
 /* Планшеты */
 @media (max-width: 770px) {
     .top-dish {

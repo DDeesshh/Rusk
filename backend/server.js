@@ -7,6 +7,7 @@ import reservationRoutes from "./routes/reservations.js";
 import favoritesRoutes from "./routes/favorites.js";
 import adminRoutes from "./routes/admin.js";
 import ordersRoutes from "./routes/orders.js";
+import reviewsRoutes from "./routes/reviews.js";
 import { startReservationScheduler } from "./services/reservationScheduler.js";
 import { uploadsDir } from "./middleware/menuUpload.js";
 import cors from "cors";
@@ -34,6 +35,7 @@ app.use("/api/reservations", reservationRoutes);
 app.use("/api/favorites", favoritesRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/orders", ordersRoutes);
+app.use("/api/reviews", reviewsRoutes);
 
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
