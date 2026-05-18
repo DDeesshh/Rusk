@@ -7,7 +7,7 @@ function formatId(id) {
 }
 
 function formatDateRu(isoDate) {
-  if (!isoDate || typeof isoDate !== "string") return "—";
+  if (!isoDate || typeof isoDate !== "string") return "–";
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(isoDate);
   if (!m) return isoDate;
   return `${m[3]}.${m[2]}.${m[1]}`;
@@ -91,10 +91,10 @@ export default function AccountAdminApplications() {
               <tr key={row.id}>
                 <td>{formatId(row.id)}</td>
                 <td>{row.name}</td>
-                <td>{row.phone || "—"}</td>
+                <td>{row.phone || "–"}</td>
                 <td>{row.email}</td>
                 <td>{formatDateRu(row.date)}</td>
-                <td>{row.time || "—"}</td>
+                <td>{row.time || "–"}</td>
                 <td>{row.guests_count}</td>
                 <td>{STATUS_LABEL[row.status] || row.status}</td>
               </tr>

@@ -2,7 +2,7 @@
  * Масштабирует подпись веса/объема (нап. "200 г", "250 мл") при изменении количества порций.
  */
 export function formatWeightWithQuantity(weightLabel, quantity) {
-  if (!weightLabel || quantity < 1) return weightLabel || "—";
+  if (!weightLabel || quantity < 1) return weightLabel || "–";
   const raw = String(weightLabel).trim();
   const m = raw.match(/^([\d.,]+)\s*(.*)$/);
   if (!m) {

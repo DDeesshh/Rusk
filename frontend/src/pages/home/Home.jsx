@@ -1,9 +1,10 @@
 import Carousel from "../../components/Carousel.jsx";
 import TopDishes from "./components/TopDishes.jsx";
+import HomeMenu from "./components/HomeMenu.jsx";
 import Book from "../../components/Book.jsx";
 import "../home/Home.css";
 
-const Home = () => {
+const Home = ({ userRole }) => {
 
     const slides = [
         { type: "video", src: "/img/Rusk-video.mp4" },
@@ -35,6 +36,7 @@ const Home = () => {
 
             <Carousel slides={slides} captions={captions} showCaptions />
             <TopDishes />
+            <HomeMenu userRole={userRole} />
             <div className="content">
                 <Book />
             </div>

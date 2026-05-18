@@ -4,10 +4,10 @@ import { fetchLatestOrder } from "../../../services/orderService.js";
 import { orderStatusLabel } from "../../../lib/orderStatus.js";
 
 function formatRuDateTime(iso) {
-  if (!iso) return "—";
+  if (!iso) return "–";
   try {
     const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return "—";
+    if (Number.isNaN(d.getTime())) return "–";
     return d.toLocaleString("ru-RU", {
       day: "2-digit",
       month: "2-digit",
@@ -16,20 +16,20 @@ function formatRuDateTime(iso) {
       minute: "2-digit",
     });
   } catch {
-    return "—";
+    return "–";
   }
 }
 
 function formatDeliveryAt(iso) {
-  if (!iso) return { date: "—", time: "—" };
+  if (!iso) return { date: "–", time: "–" };
   try {
     const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return { date: "—", time: "—" };
+    if (Number.isNaN(d.getTime())) return { date: "–", time: "–" };
     const date = d.toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit", year: "2-digit" });
     const time = d.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
     return { date, time };
   } catch {
-    return { date: "—", time: "—" };
+    return { date: "–", time: "–" };
   }
 }
 
@@ -133,8 +133,8 @@ export default function AccountOrderDetails() {
                   <tr key={row.id}>
                     <td>{idx + 1}</td>
                     <td>{row.title}</td>
-                    <td>{row.category_name || "—"}</td>
-                    <td>{row.weight || "—"}</td>
+                    <td>{row.category_name || "–"}</td>
+                    <td>{row.weight || "–"}</td>
                     <td>{row.quantity}</td>
                     <td>{Number(row.price) * Number(row.quantity)}₽</td>
                   </tr>
@@ -152,35 +152,35 @@ export default function AccountOrderDetails() {
             <div className="account-order__readonly-grid account-order__readonly-grid--2">
               <div className="account-order__field">
                 <span className="account-order__caption">Город:</span>
-                <span className="account-order__input-mimic">{snap.city || "—"}</span>
+                <span className="account-order__input-mimic">{snap.city || "–"}</span>
               </div>
               <div className="account-order__field">
                 <span className="account-order__caption">Улица:</span>
-                <span className="account-order__input-mimic">{snap.street || "—"}</span>
+                <span className="account-order__input-mimic">{snap.street || "–"}</span>
               </div>
               <div className="account-order__field">
                 <span className="account-order__caption">Дом:</span>
-                <span className="account-order__input-mimic">{snap.house || "—"}</span>
+                <span className="account-order__input-mimic">{snap.house || "–"}</span>
               </div>
               <div className="account-order__field">
                 <span className="account-order__caption">Квартира/офис:</span>
-                <span className="account-order__input-mimic">{snap.apartment || "—"}</span>
+                <span className="account-order__input-mimic">{snap.apartment || "–"}</span>
               </div>
               <div className="account-order__field">
                 <span className="account-order__caption">Подъезд:</span>
-                <span className="account-order__input-mimic">{snap.entrance || "—"}</span>
+                <span className="account-order__input-mimic">{snap.entrance || "–"}</span>
               </div>
               <div className="account-order__field">
                 <span className="account-order__caption">Этаж:</span>
-                <span className="account-order__input-mimic">{snap.floor || "—"}</span>
+                <span className="account-order__input-mimic">{snap.floor || "–"}</span>
               </div>
               <div className="account-order__field">
                 <span className="account-order__caption">Домофон:</span>
-                <span className="account-order__input-mimic">{snap.intercom || "—"}</span>
+                <span className="account-order__input-mimic">{snap.intercom || "–"}</span>
               </div>
               <div className="account-order__field">
                 <span className="account-order__caption">Комментарий:</span>
-                <span className="account-order__input-mimic">{snap.comment || "—"}</span>
+                <span className="account-order__input-mimic">{snap.comment || "–"}</span>
               </div>
             </div>
           ) : snap.comment ? (

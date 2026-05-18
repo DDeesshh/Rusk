@@ -1,8 +1,8 @@
 export function formatOrderCreatedAt(iso) {
-  if (!iso) return "—";
+  if (!iso) return "–";
   try {
     const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return "—";
+    if (Number.isNaN(d.getTime())) return "–";
     return d.toLocaleString("ru-RU", {
       day: "2-digit",
       month: "2-digit",
@@ -11,7 +11,7 @@ export function formatOrderCreatedAt(iso) {
       minute: "2-digit",
     });
   } catch {
-    return "—";
+    return "–";
   }
 }
 

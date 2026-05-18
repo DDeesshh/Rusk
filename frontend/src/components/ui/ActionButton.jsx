@@ -72,7 +72,7 @@ function ButtonWithTooltip({ iconClass, onClick, label }) {
   );
 }
 
-/** Подсказка слева от кнопки — круг оказывается у правого края (отзывы админ). */
+/** Подсказка слева от кнопки – круг оказывается у правого края (отзывы админ). */
 const ActionWithHintEnd = styled.div`
   display: flex;
   flex-direction: row-reverse;
@@ -277,7 +277,7 @@ export function DishImageActionAdmin({ onClick, tooltip = 'Удалить блю
   );
 }
 
-/* Отзывы (админ): удалить — правый верх карточки (50% × 50%), как зоны на фото в меню */
+/* Отзывы (админ): удалить – правый верх карточки (50% × 50%), как зоны на фото в меню */
 const ReviewAdminDeleteSlot = styled.div`
   position: absolute;
   top: 0;

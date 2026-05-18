@@ -33,7 +33,7 @@ router.get("/", (req, res) => {
     <li><a href="./reservation-created">Заявка на бронь принята</a></li>
     <li><a href="./reservation-reminder">Напоминание с кнопками</a></li>
   </ul>
-  <p style="color:#666;font-size:14px;">На localhost превью включено по умолчанию. В production — только при <code>ENABLE_EMAIL_PREVIEW=true</code>. Выключить локально: <code>ENABLE_EMAIL_PREVIEW=false</code>.</p>
+  <p style="color:#666;font-size:14px;">На localhost превью включено по умолчанию. В production – только при <code>ENABLE_EMAIL_PREVIEW=true</code>. Выключить локально: <code>ENABLE_EMAIL_PREVIEW=false</code>.</p>
 </body></html>`);
 });
 

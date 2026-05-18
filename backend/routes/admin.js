@@ -122,7 +122,7 @@ router.get(
       const orders = rows.map((row) => ({
         id: row.id,
         displayNumber: formatOrderDisplayNumber(row.id),
-        client_name: row.client_name || "—",
+        client_name: row.client_name || "–",
         status: row.status,
         delivery_type: row.delivery_type,
         total_price: row.total_price,

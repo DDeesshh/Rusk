@@ -124,7 +124,7 @@ export function buildReservationCreatedEmail(reservation) {
 
   const inner = `
     <h1 style="margin:0 0 8px;font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:600;color:${TEXT_MAIN};line-height:1.3;">Здравствуйте, ${name}!</h1>
-    <p style="margin:0 0 24px;font-size:16px;line-height:1.65;color:${TEXT_MUTED};">Мы получили вашу заявку на бронь стола. Ниже — детали. До встречи в RUSK.</p>
+    <p style="margin:0 0 24px;font-size:16px;line-height:1.65;color:${TEXT_MUTED};">Мы получили вашу заявку на бронь стола. Ниже – детали. До встречи в RUSK.</p>
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border:1px solid ${BORDER_SUBTLE};border-radius:8px;overflow:hidden;margin:0 0 24px;">
       ${detailRow("Номер заявки", id)}
       ${detailRow("Дата", escapeHtml(dateRu))}
@@ -135,7 +135,7 @@ export function buildReservationCreatedEmail(reservation) {
   `;
 
   return emailShell({
-    title: "RUSK — заявка на бронь принята",
+    title: "RUSK – заявка на бронь принята",
     preheader: `Заявка №${reservation.id} принята. ${dateRu}, ${timeDisp}.`,
     innerBody: inner,
   });
@@ -149,7 +149,7 @@ export function buildReservationReminderEmail({ reservation, confirmUrl, cancelU
 
   const inner = `
     <h1 style="margin:0 0 8px;font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:600;color:${TEXT_MAIN};line-height:1.3;">Здравствуйте, ${name}!</h1>
-    <p style="margin:0 0 24px;font-size:16px;line-height:1.65;color:${TEXT_MUTED};">Напоминаем о вашей брони <strong style="color:${TEXT_MAIN};">на сегодня</strong>. Подтвердите визит одной кнопкой — так мы сможем лучше подготовить стол.</p>
+    <p style="margin:0 0 24px;font-size:16px;line-height:1.65;color:${TEXT_MUTED};">Напоминаем о вашей брони <strong style="color:${TEXT_MAIN};">на сегодня</strong>. Подтвердите визит одной кнопкой – так мы сможем лучше подготовить стол.</p>
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border:1px solid ${BORDER_SUBTLE};border-radius:8px;overflow:hidden;margin:0 0 28px;">
       ${detailRow("Дата", escapeHtml(dateRu))}
       ${detailRow("Время", timeDisp)}
@@ -164,11 +164,11 @@ export function buildReservationReminderEmail({ reservation, confirmUrl, cancelU
         <td align="center" style="padding:0 0 8px;">${ctaButton(cancelUrl, "Отменить бронь", { variant: "outline" })}</td>
       </tr>
     </table>
-    <p style="margin:20px 0 0;font-size:13px;line-height:1.55;color:${TEXT_MUTED};text-align:center;">Если планы изменились, нажмите «Отменить бронь» — стол освободится для других гостей.</p>
+    <p style="margin:20px 0 0;font-size:13px;line-height:1.55;color:${TEXT_MUTED};text-align:center;">Если планы изменились, нажмите «Отменить бронь» – стол освободится для других гостей.</p>
   `;
 
   return emailShell({
-    title: "RUSK — подтвердите бронь",
+    title: "RUSK – подтвердите бронь",
     preheader: `Бронь на сегодня, ${timeDisp}. Подтвердите или отмените.`,
     innerBody: inner,
   });

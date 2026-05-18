@@ -28,7 +28,7 @@ function ClientCartNav() {
   );
 }
 
-/** Закрыть выезжающее меню (бургер), если оно открыто — один хук в Header и в BurgerMenu. */
+/** Закрыть выезжающее меню (бургер), если оно открыто – один хук в Header и в BurgerMenu. */
 const CLOSE_SIDEBAR_EVENT = "rusk-close-sidebar";
 
 const closeSidebarDrawer = () => {

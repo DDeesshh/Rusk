@@ -3,7 +3,7 @@ import { useAuth } from "../../../contexts/AuthContext.jsx";
 import { fetchAdminClients } from "../../../services/adminService.js";
 
 function formatBirth(isoDate) {
-  if (!isoDate || typeof isoDate !== "string") return "—";
+  if (!isoDate || typeof isoDate !== "string") return "–";
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(isoDate);
   if (!m) return isoDate;
   return `${m[3]}.${m[2]}.${m[1]}`;
@@ -79,7 +79,7 @@ export default function AccountAdminClients() {
               <tr key={row.id}>
                 <td>{formatId(row.id)}</td>
                 <td>{row.name}</td>
-                <td>{row.phone || "—"}</td>
+                <td>{row.phone || "–"}</td>
                 <td>{row.email}</td>
                 <td>{formatBirth(row.date_birth)}</td>
               </tr>

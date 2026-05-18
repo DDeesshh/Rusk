@@ -22,6 +22,9 @@ export default function MenuCategory({
   onAddToCart,
   onMenuUpdated,
   token,
+  showCategoryTitle = true,
+  showAdminAdd = true,
+  embedded = false,
 }) {
   const { category, items, categoryId } = data;
   const [menuItems, setMenuItems] = useState(items || []);
@@ -142,11 +145,17 @@ export default function MenuCategory({
   const itemModalOpen = itemModalMode === "add" || itemModalMode === "edit";
   const isEdit = itemModalMode === "edit";
 
+  const rootClass = embedded
+    ? "menu-category menu-category--embedded"
+    : "menu-category";
+
   return (
-    <div className="menu-category">
-      <h1 id={category} className="menu-category__title">
-        {category}
-      </h1>
+    <div className={rootClass}>
+      {showCategoryTitle ? (
+        <h1 id={category} className="menu-category__title">
+          {category}
+        </h1>
+      ) : null}
 
       <div className="menu-category__list">
         {menuItems.map((item) => (
@@ -163,11 +172,11 @@ export default function MenuCategory({
         ))}
       </div>
 
-      {userRole === "admin" && (
+      {userRole === "admin" && showAdminAdd ? (
         <CategoryAdminAddReveal hint="Добавить блюдо в категорию">
           <ActionButton iconClass="icon-add" onClick={openAddModal} />
         </CategoryAdminAddReveal>
-      )}
+      ) : null}
 
       {deleteTarget ? (
         <Modal
@@ -233,7 +242,7 @@ export default function MenuCategory({
               {saveError ? <p className="text-danger w-100 text-center">{saveError}</p> : null}
               <p className="w-100 text-center small">
                 {isEdit
-                  ? "Новое фото — по желанию; если не выбрать, останется текущее изображение."
+                  ? "Новое фото – по желанию; если не выбрать, останется текущее изображение."
                   : "Фото: jpg, png, webp или gif, не больше 2 МБ."}
               </p>
             </div>

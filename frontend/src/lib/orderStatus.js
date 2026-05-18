@@ -8,7 +8,7 @@ const LABELS = {
 };
 
 export function orderStatusLabel(status) {
-  return LABELS[status] || status || "—";
+  return LABELS[status] || status || "–";
 }
 
 /** Значения enum в БД – для селекта статуса в админке */

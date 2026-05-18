@@ -26,7 +26,7 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home userRole={userRole} />} />
         <Route path="/about" element={<About userRole={userRole} />} />
         <Route path="/menu" element={<Menu userRole={userRole} />} />
         <Route

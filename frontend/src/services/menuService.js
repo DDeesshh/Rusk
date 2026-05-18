@@ -13,6 +13,15 @@ const parseError = async (res, fallback) => {
   }
 };
 
+export async function fetchMenu() {
+  const res = await fetch(`${API_BASE}/api/menu`);
+  if (!res.ok) {
+    const msg = await parseError(res, "Не удалось загрузить меню");
+    throw new Error(msg);
+  }
+  return res.json();
+}
+
 export async function fetchTopDishesOfMonth() {
   const res = await fetch(`${API_BASE}/api/menu/top-month`);
   if (!res.ok) {

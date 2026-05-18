@@ -51,7 +51,7 @@ const TopDishes = () => {
                 <p className="top-dishes__empty text-center">Загрузка…</p>
             ) : dishes.length === 0 ? (
                 <p className="top-dishes__empty text-center">
-                    Пока нет заказов в этом месяце — скоро здесь появятся фавориты гостей.
+                    Пока нет заказов в этом месяце – скоро здесь появятся фавориты гостей.
                 </p>
             ) : (
                 <div className="top-dishes__list row g-0">
