@@ -34,9 +34,9 @@ const Book = () => {
                             <IconDecorate iconClass="icon-clock" className='mt-2' />
                             <div className="ms-4">
                                 <h2 className="mb-4">Часы работы</h2>
-                                <p className="mb-2">ПН - ПТ: 11:00 - 21:00</p>
-                                <p className="mb-2">СБ - ВС: 11:00 - 00:00</p>
-                                <p className="mb-0">Счастливые часы: 14:00 - 16:00</p>
+                                <p className="mb-2">ПН – ПТ: 11:00 – 21:00</p>
+                                <p className="mb-2">СБ – ВС: 11:00 – 00:00</p>
+                                <p className="mb-0">Счастливые часы: 14:00 – 16:00</p>
                             </div>
                         </div>
                     </div>

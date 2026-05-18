@@ -11,7 +11,7 @@ import { validateOrderSlot } from "../../lib/orderHours.js";
 import "./Checkout.css";
 
 const PICKUP_ADDRESS = "Большой Саввинский пер., д. 1";
-const PICKUP_HOURS = "ПН - ПТ: 11:00 - 21:00;      СБ - ВС: 11:00 - 00:00";
+const PICKUP_HOURS = "ПН – ПТ: 11:00 – 21:00;      СБ – ВС: 11:00 – 00:00";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^\+7\d{10}$/;

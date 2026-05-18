@@ -4,9 +4,10 @@ import Book from "../../components/Book.jsx";
 const Contacts = () => {
 
     const slides = [
-        { type: "image", src: "/img/restaurant2.png" },
-        { type: "image", src: "/img/restaurant.png" },
-        { type: "image", src: "/img/restaurant3.png" }
+        { type: "video", src: "/img/Rusk-video.mp4" },
+        { type: "image", src: "/img/Rusk-drinks.png" },
+        { type: "image", src: "/img/Rusk-dishes.png" },
+        { type: "image", src: "/img/Rusk-team.png" }
     ];
 
     const captions = [
@@ -21,6 +22,10 @@ const Contacts = () => {
         {
             title: "Классика и современность",
             text: "Традиционные рецепты с авторским подходом наших поваров."
+        },
+        {
+            title: "Команда и мастерство",
+            text: "Опытный персонал, объединяющий заботу и внимание к каждому гостю."
         }
     ];
     return (
