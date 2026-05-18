@@ -1,4 +1,9 @@
+import { NavLinks } from "../Nav/NavLinks.jsx";
 import "./Footer.css";
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
 
 const Footer = () => {
   return (
@@ -14,7 +19,17 @@ const Footer = () => {
         </div>
 
         <div className="footer__center">
-          <h1 className="footer__center-logo">RUSK</h1>
+          <button
+            type="button"
+            className="footer__center-logo"
+            onClick={scrollToTop}
+            aria-label="Наверх страницы"
+          >
+            RUSK
+          </button>
+          <nav className="footer__nav" aria-label="Навигация по сайту">
+            <NavLinks onLinkClick={scrollToTop} />
+          </nav>
           <p>2026 © ресторан RUSK. Все права защищены.</p>
         </div>
 
