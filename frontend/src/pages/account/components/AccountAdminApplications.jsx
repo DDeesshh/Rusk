@@ -62,6 +62,7 @@ export default function AccountAdminApplications() {
 
   return (
     <div className="account-admin-applications">
+      <p className="account-admin-applications__text text-center mb-5">В этом разделе отображается список всех заявок на бронирование. Доступны их основные данные и информация для управления заявками.</p>
       <div className="account-admin-table-outer">
         <table className="account-admin-table account-admin-table--applications">
           <colgroup>

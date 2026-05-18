@@ -55,6 +55,7 @@ export default function AccountFavorites() {
 
   return (
     <div className="account-favorites">
+      <p className="account-favorites__text text-center mb-5">Ваш список любимых блюд. Добавляйте позиции, чтобы не потерять их и заказывать в один клик.</p>
       <div className="menu-category__list account-favorites__list">
         {items.map((item) => (
           <FavoriteMenuItem key={item.id} item={item} onRemoved={handleRemoved} />

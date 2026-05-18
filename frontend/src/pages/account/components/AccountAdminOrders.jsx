@@ -61,6 +61,7 @@ export default function AccountAdminOrders() {
 
   return (
     <div className="account-admin-orders">
+      <p className="account-admin-orders__text text-center mb-5">Список всех заявок пользователей на бронирование столов. Здесь отображается информация о гостях, времени посещения и текущем статусе заявки.</p>
       {error ? <p className="account-admin-clients__status account-admin-clients__status--error">{error}</p> : null}
       <div className="account-admin-table-outer">
         <table className="account-admin-table account-admin-table--orders">

@@ -23,6 +23,7 @@ export default function AccountCart() {
 
   return (
     <div className="account-cart">
+      <p className="account-cart__text text-center mb-5">Ваш список блюд в корзине. Добавляйте позиции, чтобы не потерять их и заказывать в один клик.</p>
       <div className="account-admin-table-outer">
         <table className="account-admin-table account-admin-table--cart">
           <colgroup>

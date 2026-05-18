@@ -79,10 +79,11 @@ export default function UserProfile({ user }) {
   return (
     <div className="account-profile">
       <h1 className="account__title">Здравствуйте, {displayName}!</h1>
-      <p className="account-profile__text">
-        Lorem ipsum dolor sit amet consectetur. Enim consequat porttitor purus
-        purus vitae. Mauris convallis ornare proin lacinia fames feugiat amet.
-      </p>
+      {userRole === "client" ?       <p className="account-profile__text">
+      Здесь вы можете управлять своими данными, отслеживать историю заказов и бронирований, а также редактировать личную информацию. Все ваши действия и заявки собраны в одном месте для удобства и быстрого доступа.
+      </p> : <p className="account-profile__text">
+      Это административная панель, где вы можете отслеживать бронирования, заказы, отзывы и контент сайта. Все инструменты управления доступны в одном интерфейсе.</p>}
+
 
       <div className="account-profile__grid">
         <Input

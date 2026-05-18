@@ -103,8 +103,8 @@ export default function Reviews({ userRole = "guest" }) {
 
     return (
         <div className="container reviews">
-            <h1 className="reviews__title">Отзывы посетителей</h1>
-
+            <h1 className="reviews__title mb-4">Отзывы посетителей</h1>
+            <p className="mb-5 text-center">Если вы авторизованы на сайте, у вас есть возможность оставить отзыв и помочь нам становиться лучше.</p>
             {loadError ? <p className="reviews__load-error">{loadError}</p> : null}
 
             <div className="reviews__slider">

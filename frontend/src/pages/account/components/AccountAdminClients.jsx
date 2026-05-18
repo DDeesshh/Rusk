@@ -56,6 +56,7 @@ export default function AccountAdminClients() {
 
   return (
     <div className="account-admin-clients">
+     <p className="account-admin-clients__text text-center mb-5">В этом разделе отображается список всех пользователей, создавших аккаунт на сайте. Доступны их основные данные и информация для управления учетными записями.</p>
       <div className="account-admin-table-outer">
         <table className="account-admin-table account-admin-table--clients">
           <colgroup>

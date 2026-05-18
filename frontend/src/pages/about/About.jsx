@@ -23,7 +23,11 @@ const About = ({ userRole, setUserRole }) => {
                         <div className="about__description-title">
                             <h1>О ресторане</h1>
                         </div>
-                        <p>Lorem ipsum dolor sit amet consectetur. Nunc viverra diam non condimentum risus gravida. Quam praesent massa dolor quam. Nec habitant orci nulla viverra neque tristique pulvinar arcu. Ut turpis mi sem lacus ut penatibus. <br /><br /> Lorem lorem orci urna eget feugiat sed et. Nec laoreet pretium in tellus amet. Et sem mi adipiscing velit. Duis vulputate vestibulum nullam sed dictum ipsum pellentesque. Sit dui auctor enim at mauris viverra nulla. Leo in non vestibulum leo aliquet montes varius ante enim. Congue proin blandit ac ultrices. Vitae duis et eget lorem ipsum adipiscing nulla. Cursus sed ullamcorper convallis ultricies semper cras at facilisi. In turpis lobortis sed dolor. </p>
+                        <p>RUSK – современный ресторан русской кухни, где традиции гармонично сочетаются с авторским взглядом на знакомые блюда. Мы уделяем внимание качеству ингредиентов, вкусу и подаче, сохраняя атмосферу уюта и настоящего гостеприимства.
+
+Ресторан подходит как для спокойных семейных ужинов, так и для встреч с друзьями или особых событий.<br /> <br />Наша команда создает пространство, в котором хочется проводить время, наслаждаться кухней и возвращаться снова.
+
+В меню представлены как классические позиции русской кухни, так и современные интерпретации популярных рецептов. Мы регулярно обновляем подборки блюд, учитывая предпочтения гостей и сезонные продукты, чтобы каждое посещение оставляло новые впечатления. </p>
                     </div>
                 </div>
             </div>
@@ -37,7 +41,7 @@ const About = ({ userRole, setUserRole }) => {
                     <div className="about__services">
                         <div className="about__services-title">
                             <h1 className="mb-4">Особые услуги</h1>
-                            <p className="mb-3">Lorem ipsum dolor sit amet consectetur. Nunc viverra diam non condimentum risus gravida.</p>
+                            <p className="mb-3">Мы создаем гастрономические впечатления под разные поводы и задачи – от камерных встреч до масштабных мероприятий.</p>
                         </div>
                     </div>
                     <div className="about__services-content">

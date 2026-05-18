@@ -45,6 +45,7 @@ export default function AccountOrderHistory() {
 
   return (
     <div className="account-order-history">
+      <p className="account-order-history__text text-center mb-5">Здесь отображается история ваших заказов. Вы можете отслеживать статусы заказов и просматривать состав заказов.</p>
       <div className="account-admin-table-outer">
         <table className="account-admin-table account-admin-table--history">
           <colgroup>
