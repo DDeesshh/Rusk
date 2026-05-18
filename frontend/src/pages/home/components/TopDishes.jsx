@@ -36,9 +36,9 @@ const TopDishes = () => {
 
     return (
         <div className="top-dishes">
-            <div className="top-dishes__title">
+            <div className="top-dishes__title text-center">
                 <h1 className="mb-4">Выбор месяца</h1>
-                <p>
+                <p className="mb-5">
                 Подборка самых популярных блюд месяца, которые гости чаще всего заказывали и выбирали среди основного меню.
                 </p>
             </div>

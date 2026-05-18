@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { HashLink } from 'react-router-hash-link';
+import { useGoToBookingForm } from "../hooks/useGoToBookingForm.js";
 import { IconButton } from "./ui/ActionButton.jsx";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -104,6 +104,7 @@ const Arrow = styled(IconButton)`
 
 export default function Carousel({ slides = [], captions = [], showCaptions = true,  overlayColor = "var(--decorate-bg)" }) {
   const swiperRef = useRef(null);
+  const goToBookingForm = useGoToBookingForm();
   return (
     <CarouselWrapper>
       <StyledSwiper
@@ -130,9 +131,7 @@ export default function Carousel({ slides = [], captions = [], showCaptions = tr
                 <Caption>
                   <Title>{captions[index].title}</Title>
                   <Text>{captions[index].text}</Text>
-                  <HashLink smooth to="/#booking-form">
-                    <Button text="Забронировать" size="large" />
-                  </HashLink>
+                  <Button text="Забронировать" size="large" onClick={goToBookingForm} />
                 </Caption>
               )}
             </SlideContent>

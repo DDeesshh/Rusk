@@ -2,8 +2,8 @@ import NavButton from '../ui/NavButton.jsx';
 import Button from '../ui/Button.jsx';
 import ThemeSwitch from '../ui/ThemeSwitch.jsx';
 import BurgerMenu from '../Nav/BurgerMenu.jsx';
-import { HashLink } from 'react-router-hash-link';
 import { useUserRoles } from '../../users/useUserRoles.jsx';
+import { useGoToBookingForm } from '../../hooks/useGoToBookingForm.js';
 import { NavLinks } from '../Nav/NavLinks.jsx';
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext.jsx";
@@ -12,6 +12,7 @@ import "./Header.css";
 const Header = () => {
   const { userRole } = useAuth();
   const { authButton, authIcons, modal } = useUserRoles();
+  const goToBookingForm = useGoToBookingForm();
   return (
     <header>
       <div className="container header__container">
@@ -31,9 +32,7 @@ const Header = () => {
         </div>
 
         <div className="header__btn-switch">
-          <HashLink smooth to="/#booking-form">
-            <Button text="Бронь стола" />
-          </HashLink>
+          <Button text="Бронь стола" onClick={goToBookingForm} />
           <ThemeSwitch />
         </div>
 

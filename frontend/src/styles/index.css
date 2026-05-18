@@ -56,6 +56,10 @@ a {
 
 .top-dishes__title,
 .home-menu__title,
+#booking-form {
+  scroll-margin-top: 1.5rem;
+}
+
 .book__title,
 .about__description-title,
 .reviews__title,

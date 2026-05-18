@@ -143,7 +143,7 @@ const Form = () => {
                     onClose={closeSuccessModal}
                 />
             ) : null}
-            <div className="d-flex flex-column gap-4 align-items-md-center" id="booking-form">
+            <div className="d-flex flex-column gap-4 align-items-md-center">
                 <Input
                     name="name"
                     type="text"

@@ -107,7 +107,8 @@
   white-space: nowrap;
 }
 
-.account-cart {
+.account-cart,
+.account-order-history {
   width: 100%;
 }
 

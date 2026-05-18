@@ -87,6 +87,10 @@ export default function Account() {
       return null;
     }
 
+    if (activeTab === "history" && userRole === "client") {
+      return null;
+    }
+
     if (activeTab === "clients" && userRole === "admin") {
       return <AccountAdminClients />;
     }
@@ -99,10 +103,6 @@ export default function Account() {
       return <AccountAdminOrders />;
     }
 
-    if (activeTab === "history" && userRole === "client") {
-      return <AccountOrderHistory />;
-    }
-
     return (
       <div className="account__stub">
         <p>Эта вкладка будет сверстана следующей.</p>
@@ -112,7 +112,8 @@ export default function Account() {
 
   const isFavoritesClient = activeTab === "favorites" && userRole === "client";
   const isCartClient = activeTab === "cart" && userRole === "client";
-  const isClientWideTab = isFavoritesClient || isCartClient;
+  const isHistoryClient = activeTab === "history" && userRole === "client";
+  const isClientWideTab = isFavoritesClient || isCartClient || isHistoryClient;
   const isAdminWideTab =
     userRole === "admin" &&
     (activeTab === "clients" || activeTab === "applications" || activeTab === "orders");
@@ -141,7 +142,13 @@ export default function Account() {
           {isClientWideTab ? (
             <div className="container menu">
               <div className="account-client-panel">
-                {isFavoritesClient ? <AccountFavorites /> : <AccountCart />}
+                {isFavoritesClient ? (
+                  <AccountFavorites />
+                ) : isHistoryClient ? (
+                  <AccountOrderHistory />
+                ) : (
+                  <AccountCart />
+                )}
               </div>
             </div>
           ) : (

@@ -1,10 +1,21 @@
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Carousel from "../../components/Carousel.jsx";
 import TopDishes from "./components/TopDishes.jsx";
 import HomeMenu from "./components/HomeMenu.jsx";
 import Book from "../../components/Book.jsx";
+import { scrollToBookingForm } from "../../utils/scrollToBookingForm.js";
 import "../home/Home.css";
 
 const Home = ({ userRole }) => {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!location.state?.scrollToBooking) return;
+        scrollToBookingForm();
+        navigate(".", { replace: true, state: null });
+    }, [location.state, navigate]);
 
     const slides = [
         { type: "video", src: "/img/Rusk-video.mp4" },
