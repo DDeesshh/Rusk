@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import {
+  changePasswordRequest,
   loginRequest,
   meRequest,
   registerRequest,
@@ -71,6 +72,14 @@ export const AuthProvider = ({ children }) => {
     return data.user;
   };
 
+  const changePassword = async (payload) => {
+    if (!token) {
+      throw new Error("Требуется авторизация");
+    }
+
+    return changePasswordRequest(token, payload);
+  };
+
   const value = useMemo(
     () => ({
       token,
@@ -82,6 +91,7 @@ export const AuthProvider = ({ children }) => {
       login,
       logout,
       updateProfile,
+      changePassword,
     }),
     [token, user, isAuthLoading]
   );

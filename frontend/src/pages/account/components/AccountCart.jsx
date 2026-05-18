@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function AccountCart() {
   const navigate = useNavigate();
-  const { items, increment, decrement, totalSum } = useCart();
+  const { items, increment, decrement, totalSum, maxItemQuantity } = useCart();
 
   const handleCheckout = () => {
     navigate("/account/checkout");
@@ -46,6 +46,7 @@ export default function AccountCart() {
             {items.map((row, index) => {
               const lineSum = row.basePrice * row.quantity;
               const weightShown = formatWeightWithQuantity(row.weight, row.quantity);
+              const atMaxQty = row.quantity >= maxItemQuantity;
               return (
                 <tr key={row.menuItemId}>
                   <td>{index + 1}</td>
@@ -64,6 +65,7 @@ export default function AccountCart() {
                         type="button"
                         className="icon-add account-cart__qty-btn"
                         aria-label="Больше"
+                        disabled={atMaxQty}
                         onClick={() => increment(row.menuItemId)}
                       />
                     </div>

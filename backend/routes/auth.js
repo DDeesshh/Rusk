@@ -158,6 +158,50 @@ router.get("/me", authMiddleware, async (req, res) => {
   }
 });
 
+router.patch("/me/password", authMiddleware, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: "Введите текущий и новый пароль" });
+    }
+
+    if (!PASSWORD_REGEX.test(newPassword)) {
+      return res.status(400).json({ error: "Пароль: минимум 8 символов, буквы и цифры" });
+    }
+
+    if (String(currentPassword) === String(newPassword)) {
+      return res.status(400).json({ error: "Новый пароль должен отличаться от текущего" });
+    }
+
+    const [rows] = await pool.query(
+      "SELECT password FROM users WHERE id = ? LIMIT 1",
+      [req.user.id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Пользователь не найден" });
+    }
+
+    const isCurrentValid = await bcrypt.compare(currentPassword, rows[0].password);
+
+    if (!isCurrentValid) {
+      return res.status(401).json({ error: "Неверный текущий пароль" });
+    }
+
+    const passwordHash = await bcrypt.hash(newPassword, 10);
+
+    await pool.query("UPDATE users SET password = ? WHERE id = ?", [
+      passwordHash,
+      req.user.id,
+    ]);
+
+    return res.json({ message: "Пароль обновлён" });
+  } catch (error) {
+    return res.status(500).json({ error: "Ошибка смены пароля" });
+  }
+});
+
 router.patch("/me", authMiddleware, async (req, res) => {
   try {
     const { name, email, phone } = req.body;

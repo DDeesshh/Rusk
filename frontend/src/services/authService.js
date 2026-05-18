@@ -1,4 +1,6 @@
-const API_BASE_URL = "http://localhost:4000/api/auth";
+import { API_BASE } from "../config/api.js";
+
+const AUTH_BASE = `${API_BASE}/api/auth`;
 
 const getErrorMessage = async (response, fallback) => {
   try {
@@ -10,7 +12,7 @@ const getErrorMessage = async (response, fallback) => {
 };
 
 export const registerRequest = async (payload) => {
-  const response = await fetch(`${API_BASE_URL}/register`, {
+  const response = await fetch(`${AUTH_BASE}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -24,7 +26,7 @@ export const registerRequest = async (payload) => {
 };
 
 export const loginRequest = async (payload) => {
-  const response = await fetch(`${API_BASE_URL}/login`, {
+  const response = await fetch(`${AUTH_BASE}/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -38,7 +40,7 @@ export const loginRequest = async (payload) => {
 };
 
 export const meRequest = async (token) => {
-  const response = await fetch(`${API_BASE_URL}/me`, {
+  const response = await fetch(`${AUTH_BASE}/me`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -53,7 +55,7 @@ export const meRequest = async (token) => {
 };
 
 export const updateMeRequest = async (token, payload) => {
-  const response = await fetch(`${API_BASE_URL}/me`, {
+  const response = await fetch(`${AUTH_BASE}/me`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -64,6 +66,23 @@ export const updateMeRequest = async (token, payload) => {
 
   if (!response.ok) {
     throw new Error(await getErrorMessage(response, "Ошибка обновления профиля"));
+  }
+
+  return response.json();
+};
+
+export const changePasswordRequest = async (token, payload) => {
+  const response = await fetch(`${AUTH_BASE}/me/password`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error(await getErrorMessage(response, "Ошибка смены пароля"));
   }
 
   return response.json();

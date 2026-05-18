@@ -9,6 +9,7 @@ import {
 import { useAuth } from "./AuthContext.jsx";
 import { Modal } from "../components/ui/Modal.jsx";
 import Button from "../components/ui/Button.jsx";
+import { MAX_CART_ITEM_QUANTITY } from "../lib/cartLimits.js";
 
 const CartContext = createContext(null);
 
@@ -19,7 +20,7 @@ function storageKey(userId) {
 export function CartProvider({ children }) {
   const { user } = useAuth();
   const [items, setItems] = useState([]);
-  const [addedModalOpen, setAddedModalOpen] = useState(false);
+  const [cartModal, setCartModal] = useState(null);
 
   useEffect(() => {
     if (!user?.id) {
@@ -49,9 +50,15 @@ export function CartProvider({ children }) {
     const basePrice = Number(price);
     if (!Number.isFinite(basePrice) || basePrice < 0) return;
 
+    let limited = false;
+
     setItems((prev) => {
       const idx = prev.findIndex((x) => x.menuItemId === id);
       if (idx >= 0) {
+        if (prev[idx].quantity >= MAX_CART_ITEM_QUANTITY) {
+          limited = true;
+          return prev;
+        }
         const next = [...prev];
         next[idx] = { ...next[idx], quantity: next[idx].quantity + 1 };
         return next;
@@ -67,16 +74,24 @@ export function CartProvider({ children }) {
         },
       ];
     });
-    setAddedModalOpen(true);
+
+    setCartModal(
+      limited
+        ? {
+            title: "Корзина",
+            body: `Не более ${MAX_CART_ITEM_QUANTITY} порций одного блюда.`,
+          }
+        : { title: "Корзина", body: "Позиция добавлена в корзину" }
+    );
   }, []);
 
   const increment = useCallback((menuItemId) => {
     setItems((prev) =>
-      prev.map((row) =>
-        row.menuItemId === menuItemId
-          ? { ...row, quantity: row.quantity + 1 }
-          : row
-      )
+      prev.map((row) => {
+        if (row.menuItemId !== menuItemId) return row;
+        if (row.quantity >= MAX_CART_ITEM_QUANTITY) return row;
+        return { ...row, quantity: row.quantity + 1 };
+      })
     );
   }, []);
 
@@ -115,6 +130,7 @@ export function CartProvider({ children }) {
       totalQuantity,
       totalSum,
       clearCart,
+      maxItemQuantity: MAX_CART_ITEM_QUANTITY,
     }),
     [items, addItem, increment, decrement, totalQuantity, totalSum, clearCart]
   );
@@ -122,16 +138,14 @@ export function CartProvider({ children }) {
   return (
     <CartContext.Provider value={value}>
       {children}
-      {addedModalOpen ? (
+      {cartModal ? (
         <Modal
-          title="Корзина"
-          onClose={() => setAddedModalOpen(false)}
-          body={
-            <p className="text-center">Позиция добавлена в корзину</p>
-          }
+          title={cartModal.title}
+          onClose={() => setCartModal(null)}
+          body={<p className="text-center mb-0">{cartModal.body}</p>}
           footer={
             <div className="d-flex justify-content-center">
-              <Button text="Ок" onClick={() => setAddedModalOpen(false)} />
+              <Button text="Ок" onClick={() => setCartModal(null)} />
             </div>
           }
         />
