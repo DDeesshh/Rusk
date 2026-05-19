@@ -9,10 +9,10 @@ const About = ({ userRole, setUserRole }) => {
     const { modal } = useUserRoles({ userRole, setUserRole });
 
     const slides = [
-        { type: "image", src: "/img/Rusk-1.png" },
-        { type: "image", src: "/img/Rusk-2.png" },
-        { type: "image", src: "/img/Rusk-3.png" },
-        { type: "image", src: "/img/Rusk-4.png" }
+        { type: "image", src: "/img/Rusk-1.webp" },
+        { type: "image", src: "/img/Rusk-2.webp" },
+        { type: "image", src: "/img/Rusk-3.webp" },
+        { type: "image", src: "/img/Rusk-4.webp" }
     ];
 
     return (

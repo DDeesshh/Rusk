@@ -5,10 +5,11 @@ import mysql from 'mysql2/promise';
 
 // Пул соединений
 export const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  database: 'rusk',
-  port: 3307
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'rusk',
+  port: Number(process.env.DB_PORT || 3307),
 });
 
 // Проверка подключения

@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:4000/api/reservations";
+import { API_BASE } from "../config/api.js";
 
 const getErrorMessage = async (response, fallback) => {
   try {
@@ -10,7 +10,7 @@ const getErrorMessage = async (response, fallback) => {
 };
 
 export const createReservationRequest = async (payload) => {
-  const response = await fetch(API_BASE_URL, {
+  const response = await fetch(`${API_BASE}/api/reservations`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),

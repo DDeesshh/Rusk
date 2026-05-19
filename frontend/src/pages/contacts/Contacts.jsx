@@ -5,9 +5,9 @@ const Contacts = () => {
 
     const slides = [
         { type: "video", src: "/img/Rusk-video.mp4" },
-        { type: "image", src: "/img/Rusk-drinks.png" },
-        { type: "image", src: "/img/Rusk-dishes.png" },
-        { type: "image", src: "/img/Rusk-team.png" }
+        { type: "image", src: "/img/Rusk-drinks.webp" },
+        { type: "image", src: "/img/Rusk-dishes.webp" },
+        { type: "image", src: "/img/Rusk-team.webp" }
     ];
 
     const captions = [

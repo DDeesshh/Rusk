@@ -1,5 +1,7 @@
 import "dotenv/config";
 import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { pool } from './db/connection.js';
 import testRouter from "./routes/test.js";
 import menuRoutes from "./routes/menu.js";
@@ -15,6 +17,10 @@ import { startReservationScheduler } from "./services/reservationScheduler.js";
 import { uploadsDir } from "./middleware/menuUpload.js";
 import cors from "cors";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const frontendDist = path.join(__dirname, '..', 'frontend', 'dist');
+const isProduction = process.env.NODE_ENV === 'production';
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -23,7 +29,7 @@ app.use(express.json());
 app.use("/uploads", express.static(uploadsDir));
 app.use("/api", testRouter);
 
-app.get('/', async (req, res) => {
+app.get('/api/health', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT NOW() AS now');
     res.json(rows);
@@ -40,6 +46,13 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/orders", ordersRoutes);
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/dev/email-preview", emailPreviewRoutes);
+
+if (isProduction) {
+  app.use(express.static(frontendDist));
+  app.get(/^(?!\/api).*/, (_req, res) => {
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
