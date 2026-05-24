@@ -20,6 +20,11 @@ export function deliveryTypeShort(type) {
   return "Самовывоз";
 }
 
+export function paymentMethodLabel(method) {
+  if (method === "cash") return "Наличными";
+  return "Картой";
+}
+
 export function positionsLabel(count) {
   const n = Number(count) || 0;
   const d = n % 10;

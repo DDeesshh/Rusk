@@ -41,3 +41,11 @@ export async function fetchMyOrders(token) {
   if (!res.ok) throw new Error(await parseError(res, "Не удалось загрузить историю заказов"));
   return res.json();
 }
+
+export async function fetchMyOrderById(token, orderId) {
+  const res = await fetch(`${API_BASE}/api/orders/my/${orderId}`, {
+    headers: { ...authHeader(token) },
+  });
+  if (!res.ok) throw new Error(await parseError(res, "Не удалось загрузить заказ"));
+  return res.json();
+}

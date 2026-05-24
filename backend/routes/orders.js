@@ -240,6 +240,69 @@ router.get("/my", async (req, res) => {
   }
 });
 
+function parseCheckoutSnapshot(raw) {
+  let snapshot = raw;
+  if (typeof snapshot === "string") {
+    try {
+      snapshot = JSON.parse(snapshot);
+    } catch {
+      snapshot = null;
+    }
+  }
+  return snapshot;
+}
+
+async function loadOrderForClient(userId, orderId) {
+  const [orders] = await pool.query(
+    `SELECT id, status, delivery_type, payment_method, total_price, delivery_address, comment,
+            checkout_snapshot, delivery_datetime, created_at
+     FROM orders
+     WHERE id = ? AND user_id = ?`,
+    [orderId, userId]
+  );
+  if (orders.length === 0) return null;
+
+  const order = orders[0];
+  const [items] = await pool.query(
+    `SELECT oi.id, oi.quantity, oi.price, m.name AS title, m.weight, c.name AS category_name
+     FROM order_items oi
+     JOIN menu_items m ON m.id = oi.menu_item_id
+     LEFT JOIN categories c ON c.id = m.category_id
+     WHERE oi.order_id = ?
+     ORDER BY oi.id ASC`,
+    [order.id]
+  );
+
+  return {
+    id: order.id,
+    displayNumber: formatDisplayOrderNumber(order.id),
+    status: order.status,
+    delivery_type: order.delivery_type,
+    payment_method: order.payment_method,
+    total_price: order.total_price,
+    delivery_address: order.delivery_address,
+    comment: order.comment,
+    snapshot: parseCheckoutSnapshot(order.checkout_snapshot),
+    delivery_datetime: order.delivery_datetime,
+    created_at: order.created_at,
+    items,
+  };
+}
+
+function handleOrderLoadError(res, error) {
+  console.error(error);
+  if (
+    String(error.message || "").includes("Unknown column") &&
+    String(error.message || "").includes("checkout_snapshot")
+  ) {
+    return res.status(500).json({
+      error:
+        "В базе не применена миграция: выполните backend/migrations/20260512_orders_checkout_snapshot.sql",
+    });
+  }
+  return res.status(500).json({ error: "Не удалось загрузить заказ" });
+}
+
 /** Последний «текущий» заказ: не выдан, не получен и не отменен */
 const CURRENT_ORDER_STATUSES = ["new", "confirmed", "cooking"];
 
@@ -263,51 +326,30 @@ router.get("/my/latest", async (req, res) => {
       return res.json({ order: null });
     }
 
-    const order = orders[0];
-    let snapshot = order.checkout_snapshot;
-    if (typeof snapshot === "string") {
-      try {
-        snapshot = JSON.parse(snapshot);
-      } catch {
-        snapshot = null;
-      }
-    }
-
-    const [items] = await pool.query(
-      `SELECT oi.id, oi.quantity, oi.price, m.name AS title, m.weight, c.name AS category_name
-       FROM order_items oi
-       JOIN menu_items m ON m.id = oi.menu_item_id
-       LEFT JOIN categories c ON c.id = m.category_id
-       WHERE oi.order_id = ?
-       ORDER BY oi.id ASC`,
-      [order.id]
-    );
-
-    return res.json({
-      order: {
-        id: order.id,
-        displayNumber: formatDisplayOrderNumber(order.id),
-        status: order.status,
-        delivery_type: order.delivery_type,
-        payment_method: order.payment_method,
-        total_price: order.total_price,
-        delivery_address: order.delivery_address,
-        comment: order.comment,
-        snapshot,
-        delivery_datetime: order.delivery_datetime,
-        created_at: order.created_at,
-        items,
-      },
-    });
+    const order = await loadOrderForClient(req.user.id, orders[0].id);
+    return res.json({ order });
   } catch (error) {
-    console.error(error);
-    if (String(error.message || "").includes("Unknown column") && String(error.message || "").includes("checkout_snapshot")) {
-      return res.status(500).json({
-        error:
-          "В базе не применена миграция: выполните backend/migrations/20260512_orders_checkout_snapshot.sql",
-      });
+    return handleOrderLoadError(res, error);
+  }
+});
+
+/** Один заказ клиента по id (история, любой статус) — после /my/latest */
+router.get("/my/:orderId", async (req, res) => {
+  if (!requireClient(req, res)) return;
+
+  const orderId = Number(req.params.orderId);
+  if (!Number.isFinite(orderId) || orderId < 1) {
+    return res.status(400).json({ error: "Некорректный номер заказа" });
+  }
+
+  try {
+    const order = await loadOrderForClient(req.user.id, orderId);
+    if (!order) {
+      return res.status(404).json({ error: "Заказ не найден" });
     }
-    return res.status(500).json({ error: "Не удалось загрузить заказ" });
+    return res.json({ order });
+  } catch (error) {
+    return handleOrderLoadError(res, error);
   }
 });
 
