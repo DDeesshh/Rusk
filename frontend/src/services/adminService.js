@@ -37,6 +37,14 @@ export async function fetchAdminOrders(token) {
   return res.json();
 }
 
+export async function fetchAdminOrderById(token, orderId) {
+  const res = await fetch(`${API_BASE}/api/admin/orders/${orderId}`, {
+    headers: { ...authHeader(token) },
+  });
+  if (!res.ok) throw new Error(await parseError(res, "Не удалось загрузить заказ"));
+  return res.json();
+}
+
 export async function patchAdminOrderStatus(token, orderId, status) {
   const res = await fetch(`${API_BASE}/api/admin/orders/${orderId}`, {
     method: "PATCH",

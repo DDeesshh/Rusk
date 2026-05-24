@@ -105,6 +105,59 @@ function formatOrderDisplayNumber(id) {
   return String(100000000 + Number(id)).slice(1);
 }
 
+function parseCheckoutSnapshot(raw) {
+  let snapshot = raw;
+  if (typeof snapshot === "string") {
+    try {
+      snapshot = JSON.parse(snapshot);
+    } catch {
+      snapshot = null;
+    }
+  }
+  return snapshot;
+}
+
+async function loadOrderById(orderId) {
+  const [orders] = await pool.query(
+    `SELECT o.id, o.status, o.delivery_type, o.payment_method, o.total_price, o.delivery_address,
+            o.comment, o.checkout_snapshot, o.delivery_datetime, o.created_at
+     FROM orders o
+     WHERE o.id = ?`,
+    [orderId]
+  );
+  if (orders.length === 0) return null;
+
+  const order = orders[0];
+  const [items] = await pool.query(
+    `SELECT oi.id, oi.quantity, oi.price, m.name AS title, m.weight, c.name AS category_name
+     FROM order_items oi
+     JOIN menu_items m ON m.id = oi.menu_item_id
+     LEFT JOIN categories c ON c.id = m.category_id
+     WHERE oi.order_id = ?
+     ORDER BY oi.id ASC`,
+    [order.id]
+  );
+
+  return {
+    id: order.id,
+    displayNumber: formatOrderDisplayNumber(order.id),
+    status: order.status,
+    delivery_type: order.delivery_type,
+    payment_method: order.payment_method,
+    total_price: order.total_price,
+    delivery_address: order.delivery_address,
+    comment: order.comment,
+    snapshot: parseCheckoutSnapshot(order.checkout_snapshot),
+    delivery_datetime:
+      order.delivery_datetime instanceof Date
+        ? order.delivery_datetime.toISOString()
+        : order.delivery_datetime,
+    created_at:
+      order.created_at instanceof Date ? order.created_at.toISOString() : order.created_at,
+    items,
+  };
+}
+
 router.get(
   "/orders",
   authMiddleware,
@@ -136,6 +189,39 @@ router.get(
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Ошибка загрузки заказов" });
+    }
+  }
+);
+
+router.get(
+  "/orders/:id",
+  authMiddleware,
+  rolesMiddleware("admin"),
+  async (req, res) => {
+    try {
+      const orderId = Number(req.params.id);
+      if (!Number.isInteger(orderId) || orderId < 1) {
+        return res.status(400).json({ error: "Некорректный номер заказа" });
+      }
+
+      const order = await loadOrderById(orderId);
+      if (!order) {
+        return res.status(404).json({ error: "Заказ не найден" });
+      }
+
+      return res.json({ order });
+    } catch (err) {
+      console.error(err);
+      if (
+        String(err.message || "").includes("Unknown column") &&
+        String(err.message || "").includes("checkout_snapshot")
+      ) {
+        return res.status(500).json({
+          error:
+            "В базе не применена миграция: выполните backend/migrations/20260512_orders_checkout_snapshot.sql",
+        });
+      }
+      return res.status(500).json({ error: "Не удалось загрузить заказ" });
     }
   }
 );

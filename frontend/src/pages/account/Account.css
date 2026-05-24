@@ -142,7 +142,8 @@
   color: var(--text-color);
 }
 
-.account-admin-table--history .account-order-history__row.is-expanded td {
+.account-admin-table--history .account-order-history__row.is-expanded td,
+.account-admin-table--orders .account-order-history__row.is-expanded td {
   border-bottom: none;
 }
 
