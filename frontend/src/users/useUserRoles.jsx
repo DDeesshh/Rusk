@@ -4,6 +4,7 @@ import NavButton from "../components/ui/NavButton.jsx";
 import { IconButton } from "../components/ui/ActionButton.jsx";
 import { Modal } from "../components/ui/Modal.jsx";
 import Input from "../components/ui/Input.jsx";
+import { getBirthDateValidationError } from "../utils/birthDateFormat.js";
 import Button from "../components/ui/Button.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { useCart } from "../contexts/CartContext.jsx";
@@ -73,6 +74,7 @@ export const useUserRoles = () => {
     password: "",
     date_birth: "",
   });
+  const [dateBirthDisplay, setDateBirthDisplay] = useState("");
 
   const openLogin = (e) => {
     e?.preventDefault?.();
@@ -162,11 +164,14 @@ export const useUserRoles = () => {
         nextErrors.password = "Минимум 8 символов, буквы и цифры";
       }
 
-      if (!normalizedForm.date_birth) {
-        nextErrors.date_birth = "Укажите дату рождения";
-      }
-
-      if (getAge(normalizedForm.date_birth) < 18) {
+      const todayIso = new Date().toISOString().slice(0, 10);
+      const dateBirthError = getBirthDateValidationError(dateBirthDisplay, {
+        required: true,
+        maxIso: todayIso,
+      });
+      if (dateBirthError) {
+        nextErrors.date_birth = dateBirthError;
+      } else if (getAge(normalizedForm.date_birth) < 18) {
         nextErrors.date_birth = "Регистрация доступна только с 18 лет";
       }
 
@@ -185,6 +190,7 @@ export const useUserRoles = () => {
         password: "",
         date_birth: "",
       });
+      setDateBirthDisplay("");
       openMessage();
     } catch (error) {
       setAuthError(error.message);
@@ -310,12 +316,13 @@ export const useUserRoles = () => {
                 errorText={registerErrors.password}
               />
               <Input
+                birthDate
                 name="date_birth"
-                type="date"
-                placeholder="Дата рождения*"
                 value={registerForm.date_birth}
                 onChange={handleRegisterInput}
+                onDisplayChange={setDateBirthDisplay}
                 errorText={registerErrors.date_birth}
+                max={new Date().toISOString().slice(0, 10)}
               />
             </div>
             {authError && <p className="text-danger text-center mt-3">{authError}</p>}
