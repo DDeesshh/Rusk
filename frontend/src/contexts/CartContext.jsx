@@ -81,7 +81,7 @@ export function CartProvider({ children }) {
             title: "Корзина",
             body: `Не более ${MAX_CART_ITEM_QUANTITY} порций одного блюда.`,
           }
-        : { title: "Корзина", body: "Позиция добавлена в корзину" }
+        : { title: "Корзина", body: "Позиция добавлена в корзину." }
     );
   }, []);
 

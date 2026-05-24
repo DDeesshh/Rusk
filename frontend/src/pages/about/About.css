@@ -1,6 +1,13 @@
 /* ------------- Reviews ------------- */
 .reviews__slider {
     position: relative;
+    overflow: visible;
+}
+
+.reviews__slider .swiper,
+.reviews__slider .swiper-wrapper,
+.reviews__slider .swiper-slide {
+    overflow: visible;
 }
 
 .reviews-item {
@@ -12,6 +19,7 @@
     flex-direction: column;
     justify-content: space-between;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    overflow: visible;
 }
 
 .reviews-item__content {

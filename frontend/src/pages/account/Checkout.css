@@ -15,17 +15,6 @@
   text-align: left;
 }
 
-.checkout__back-link {
-  font-family: "Merriweather", serif;
-  font-size: 15px;
-  color: var(--primary-color);
-  text-decoration: none;
-}
-
-.checkout__back-link:hover {
-  text-decoration: underline;
-}
-
 .checkout.account .checkout__title {
   margin-bottom: 2.85rem;
 }

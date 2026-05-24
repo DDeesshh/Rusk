@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import NavButton from "../../components/ui/NavButton.jsx";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import { useCart } from "../../contexts/CartContext.jsx";
 import Input from "../../components/ui/Input.jsx";
@@ -221,9 +222,7 @@ export default function Checkout() {
         <div className="account__overlay">
           <div className="container">
             <p className="checkout__back">
-              <Link to="/account?tab=cart" className="checkout__back-link">
-                ← Корзина
-              </Link>
+              <NavButton text="← Корзина" to="/account?tab=cart" />
             </p>
             <h1 className="checkout__title account__title">Оформление заказа</h1>
             <p className="checkout__intro">
