@@ -18,7 +18,8 @@ import { uploadsDir } from "./middleware/menuUpload.js";
 import cors from "cors";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const frontendDist = path.join(__dirname, '..', 'frontend', 'dist');
+const webRoot = path.join(__dirname, '..');
+const frontendDist = path.join(webRoot, 'frontend', 'dist');
 const isProduction = process.env.NODE_ENV === 'production';
 
 const app = express();
@@ -48,6 +49,7 @@ app.use("/api/reviews", reviewsRoutes);
 app.use("/api/dev/email-preview", emailPreviewRoutes);
 
 if (isProduction) {
+  app.use('/img', express.static(path.join(webRoot, 'img')));
   app.use(express.static(frontendDist));
   app.get(/^(?!\/api).*/, (_req, res) => {
     res.sendFile(path.join(frontendDist, 'index.html'));
