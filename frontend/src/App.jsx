@@ -8,6 +8,7 @@ import Menu from './pages/menu/Menu.jsx';
 import Contacts from './pages/contacts/Contacts.jsx';
 import Account from './pages/account/Account.jsx';
 import Checkout from './pages/account/Checkout.jsx';
+import ReservationAction from './pages/reservation/ReservationAction.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { useAuth } from './contexts/AuthContext.jsx';
 
@@ -48,6 +49,14 @@ function App() {
           }
         />
         <Route path="/contacts" element={<Contacts />} />
+        <Route
+          path="/reservation/confirm/:token"
+          element={<ReservationAction action="confirm" />}
+        />
+        <Route
+          path="/reservation/cancel/:token"
+          element={<ReservationAction action="cancel" />}
+        />
       </Routes>
       <Footer />
     </Router>

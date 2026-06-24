@@ -148,12 +148,22 @@ router.post("/", async (req, res) => {
       confirmation_token: confirmationToken,
     };
 
-    await sendReservationCreatedEmail(reservation);
+    let emailSent = true;
+    try {
+      await sendReservationCreatedEmail(reservation);
+    } catch (emailError) {
+      emailSent = false;
+      console.error("Не удалось отправить письмо о брони:", emailError.message);
+    }
+
     return res.status(201).json({
-      message: "Заявка на бронь принята. Мы отправили письмо на ваш email.",
+      message: emailSent
+        ? "Заявка на бронь принята. Мы отправили письмо на ваш email."
+        : "Заявка на бронь принята. Письмо на email сейчас не удалось отправить. Мы свяжемся с вами по телефону.",
       reservation,
     });
   } catch (error) {
+    console.error("Ошибка создания брони:", error);
     return res.status(500).json({ error: "Ошибка создания брони" });
   }
 });
@@ -211,12 +221,15 @@ export const sendReminderEmails = async () => {
     return;
   }
 
-  const baseUrl = process.env.BACKEND_PUBLIC_URL || "http://localhost:4000";
+  const siteUrl =
+    process.env.PUBLIC_SITE_URL ||
+    process.env.BACKEND_PUBLIC_URL ||
+    "http://localhost:4000";
 
   for (const row of rows) {
     const token = row.confirmation_token || crypto.randomBytes(32).toString("hex");
-    const confirmUrl = `${baseUrl}/api/reservations/confirm/${token}`;
-    const cancelUrl = `${baseUrl}/api/reservations/cancel/${token}`;
+    const confirmUrl = `${siteUrl}/reservation/confirm/${token}`;
+    const cancelUrl = `${siteUrl}/reservation/cancel/${token}`;
 
     await sendReservationReminderEmail({
       reservation: {

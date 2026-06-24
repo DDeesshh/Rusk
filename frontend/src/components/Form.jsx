@@ -36,8 +36,8 @@ const Form = () => {
     const [successModal, setSuccessModal] = useState({ open: false, message: "" });
     const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
     const workingHoursHint = form.date
-        ? <p>Доступное время в выбранный день: {getWorkingHoursByDate(form.date).label}</p>
-        : <p>Сначала выберите дату, чтобы увидеть доступное время бронирования.</p>;
+        ? `Доступное время в выбранный день: ${getWorkingHoursByDate(form.date).label}`
+        : "Сначала выберите дату, чтобы увидеть доступное время бронирования.";
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -190,7 +190,9 @@ const Form = () => {
                     onChange={handleChange}
                     errorText={errors.time}
                 />
-                <p className="mb-0 text-muted">{workingHoursHint}</p>
+                <p className="mb-0" style={{ color: "var(--text-color)" }}>
+                    {workingHoursHint}
+                </p>
                 <Input
                     name="guests_count"
                     type="number"

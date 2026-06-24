@@ -136,7 +136,7 @@ function BirthDateField({
   onDisplayChange,
   errorText = "",
   size,
-  label = "День рождения*",
+  label = "Дата рождения*",
   max,
   onFocus,
   onBlur,
@@ -243,7 +243,7 @@ export default function Input({
   onBlur,
   birthDate = false,
   onDisplayChange,
-  label = "День рождения*",
+  label = "Дата рождения*",
   max,
   ...rest
 }) {

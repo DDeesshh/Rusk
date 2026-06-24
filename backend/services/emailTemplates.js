@@ -199,10 +199,13 @@ export function buildReservationCreatedPreviewHtml() {
 }
 
 export function buildReservationReminderPreviewHtml() {
-  const base = process.env.BACKEND_PUBLIC_URL || "http://localhost:4000";
+  const siteUrl =
+    process.env.PUBLIC_SITE_URL ||
+    process.env.BACKEND_PUBLIC_URL ||
+    "http://localhost:4000";
   return buildReservationReminderEmail({
     reservation: mockReservationReminder(),
-    confirmUrl: `${base}/api/reservations/confirm/preview-token`,
-    cancelUrl: `${base}/api/reservations/cancel/preview-token`,
+    confirmUrl: `${siteUrl}/reservation/confirm/preview-token`,
+    cancelUrl: `${siteUrl}/reservation/cancel/preview-token`,
   });
 }

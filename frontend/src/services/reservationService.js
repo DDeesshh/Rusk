@@ -22,3 +22,13 @@ export const createReservationRequest = async (payload) => {
 
   return response.json();
 };
+
+export const applyReservationAction = async (action, token) => {
+  const response = await fetch(`${API_BASE}/api/reservations/${action}/${token}`);
+  const message = await response.text();
+
+  return {
+    ok: response.ok,
+    message: message || (response.ok ? "Готово." : "Ссылка недействительна или устарела."),
+  };
+};
