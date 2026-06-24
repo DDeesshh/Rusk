@@ -63,6 +63,64 @@
   width: 100%;
 }
 
+.account-admin-applications__filter {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+  padding-left: 15px;
+  box-sizing: border-box;
+}
+
+.account-admin-applications__filter-label {
+  font-family: "Merriweather", serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--primary-color);
+  text-align: left;
+}
+
+.account-admin-applications__filter .account-admin-select {
+  margin: 0;
+}
+
+.account-admin-select {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 11rem;
+}
+
+.account-admin-table td .account-admin-select {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.account-admin-select::after {
+  content: "";
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 6px;
+  background-color: var(--primary-color);
+  pointer-events: none;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath fill='%23000' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath fill='%23000' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.account-admin-select:has(.account-admin-orders__status:disabled)::after {
+  opacity: 0.6;
+}
+
 .account-admin-table {
   width: 100%;
   table-layout: fixed;
@@ -235,18 +293,20 @@
 
 .account-admin-orders__status {
   width: 100%;
-  max-width: 13.5rem;
-  margin: 0 auto;
+  margin: 0;
   box-sizing: border-box;
   font-family: "Merriweather", serif;
   font-size: 14px;
   font-weight: 400;
   color: var(--text-color);
-  background: color-mix(in srgb, var(--decorate-bg) 65%, transparent);
+  background-color: color-mix(in srgb, var(--decorate-bg) 65%, transparent);
   border: 1px solid color-mix(in srgb, var(--primary-color) 40%, transparent);
   border-radius: 4px;
-  padding: 6px 10px;
+  padding: 6px 1.75rem 6px 10px;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .account-admin-orders__status:disabled {

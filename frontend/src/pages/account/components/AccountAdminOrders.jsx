@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext.jsx";
 import {
   fetchAdminOrderById,
@@ -13,6 +13,7 @@ import OrderDetailsSummary from "./OrderDetailsSummary.jsx";
 export default function AccountAdminOrders() {
   const { token } = useAuth();
   const [orders, setOrders] = useState([]);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [savingId, setSavingId] = useState(null);
@@ -37,6 +38,11 @@ export default function AccountAdminOrders() {
   useEffect(() => {
     load();
   }, [load]);
+
+  const visibleOrders = useMemo(() => {
+    if (statusFilter === "all") return orders;
+    return orders.filter((row) => row.status === statusFilter);
+  }, [orders, statusFilter]);
 
   const loadOrderDetails = useCallback(
     async (orderId, listStatus) => {
@@ -140,10 +146,41 @@ export default function AccountAdminOrders() {
       <p className="account-admin-orders__text text-center mb-5">
         Список заказов клиентов. Нажмите на номер заказа, чтобы открыть состав и детали доставки.
       </p>
-      {error ? (
-        <p className="account-admin-clients__status account-admin-clients__status--error">{error}</p>
-      ) : null}
-      <div className="account-admin-table-outer">
+
+      <div className="account-admin-applications__filter">
+        <label className="account-admin-applications__filter-label" htmlFor="orders-status-filter">
+          Статус
+        </label>
+        <span className="account-admin-select">
+          <select
+            id="orders-status-filter"
+            className="account-admin-orders__status"
+            value={statusFilter}
+            aria-label="Фильтр по статусу заказа"
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="all">Все</option>
+            {ORDER_STATUS_VALUES.map((st) => (
+              <option key={st} value={st}>
+                {orderStatusLabel(st)}
+              </option>
+            ))}
+          </select>
+        </span>
+      </div>
+
+      {visibleOrders.length === 0 ? (
+        <p className="account-admin-clients__status">
+          {statusFilter === "all"
+            ? "Заказов пока нет."
+            : `Заказов со статусом «${orderStatusLabel(statusFilter)}» нет.`}
+        </p>
+      ) : (
+        <>
+          {error ? (
+            <p className="account-admin-clients__status account-admin-clients__status--error">{error}</p>
+          ) : null}
+          <div className="account-admin-table-outer">
         <table className="account-admin-table account-admin-table--orders">
           <colgroup>
             <col style={{ width: "12%" }} />
@@ -164,7 +201,7 @@ export default function AccountAdminOrders() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((row) => {
+            {visibleOrders.map((row) => {
               const isExpanded = expandedId === row.id;
               const detail = detailsById[row.id];
 
@@ -192,19 +229,21 @@ export default function AccountAdminOrders() {
                     <td>{Number(row.total_price)}₽</td>
                     <td>{deliveryTypeShort(row.delivery_type)}</td>
                     <td>
-                      <select
-                        className="account-admin-orders__status"
-                        value={row.status}
-                        disabled={savingId === row.id}
-                        aria-label={`Статус заказа №${row.displayNumber}`}
-                        onChange={(e) => handleStatusChange(row.id, e.target.value)}
-                      >
-                        {ORDER_STATUS_VALUES.map((st) => (
-                          <option key={st} value={st}>
-                            {orderStatusLabel(st)}
-                          </option>
-                        ))}
-                      </select>
+                      <span className="account-admin-select">
+                        <select
+                          className="account-admin-orders__status"
+                          value={row.status}
+                          disabled={savingId === row.id}
+                          aria-label={`Статус заказа №${row.displayNumber}`}
+                          onChange={(e) => handleStatusChange(row.id, e.target.value)}
+                        >
+                          {ORDER_STATUS_VALUES.map((st) => (
+                            <option key={st} value={st}>
+                              {orderStatusLabel(st)}
+                            </option>
+                          ))}
+                        </select>
+                      </span>
                     </td>
                   </tr>
                   {isExpanded ? (
@@ -234,7 +273,9 @@ export default function AccountAdminOrders() {
             })}
           </tbody>
         </table>
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

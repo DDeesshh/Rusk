@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext.jsx";
 import { fetchAdminClients } from "../../../services/adminService.js";
 
@@ -38,6 +38,11 @@ export default function AccountAdminClients() {
     load();
   }, [load]);
 
+  const sortedClients = useMemo(
+    () => [...clients].sort((a, b) => Number(b.id) - Number(a.id)),
+    [clients]
+  );
+
   if (loading) {
     return <p className="account-admin-clients__status">Загрузка...</p>;
   }
@@ -46,7 +51,7 @@ export default function AccountAdminClients() {
     return <p className="account-admin-clients__status account-admin-clients__status--error">{error}</p>;
   }
 
-  if (clients.length === 0) {
+  if (sortedClients.length === 0) {
     return (
       <p className="account-admin-clients__status">
         Зарегистрированных клиентов пока нет.
@@ -76,7 +81,7 @@ export default function AccountAdminClients() {
             </tr>
           </thead>
           <tbody>
-            {clients.map((row) => (
+            {sortedClients.map((row) => (
               <tr key={row.id}>
                 <td>{formatId(row.id)}</td>
                 <td>{row.name}</td>

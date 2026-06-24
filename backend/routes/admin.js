@@ -15,7 +15,7 @@ router.get(
         `SELECT id, name, phone, email, date_birth
          FROM users
          WHERE role = 'client'
-         ORDER BY id ASC`
+         ORDER BY created_at DESC, id DESC`
       );
 
       const clients = rows.map((row) => ({
@@ -72,7 +72,7 @@ router.get(
       const [rows] = await pool.query(
         `SELECT id, user_id, name, phone, email, date, time, guests_count, status, comment, created_at
          FROM reservations
-         ORDER BY date DESC, time DESC, id DESC`
+         ORDER BY created_at DESC, id DESC`
       );
 
       const reservations = rows.map((row) => ({
