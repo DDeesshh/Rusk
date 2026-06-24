@@ -12,7 +12,23 @@
 @font-face {
   font-family: 'Playfair Display';
   src: url('../assets/fonts/PlayfairDisplay.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../assets/fonts/PlayfairDisplay.woff2') format('woff2');
   font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../assets/fonts/PlayfairDisplay.woff2') format('woff2');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
@@ -29,12 +45,48 @@
 @font-face {
   font-family: 'Merriweather';
   src: url('../assets/fonts/Merriweather.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Merriweather';
+  src: url('../assets/fonts/Merriweather.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Merriweather';
+  src: url('../assets/fonts/Merriweather.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Merriweather';
+  src: url('../assets/fonts/Merriweather.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bootstrap по умолчанию подставляет system-ui — перебиваем */
+:root {
+  --bs-body-font-family: 'Merriweather', serif;
+  --bs-font-sans-serif: 'Merriweather', serif;
+}
+
+body {
+  font-family: 'Merriweather', serif;
+  font-weight: 300;
+}
+
 h1,
+.h1,
 .header__logo,
 .footer__center-logo {
   font-family: 'Playfair Display', serif;
@@ -44,7 +96,8 @@ h1,
   color: var(--text-color);
 }
 
-h2 {
+h2,
+.h2 {
   font-family: 'Playfair Display', serif;
   font-weight: 500;
   font-size: 20px;
@@ -53,7 +106,19 @@ h2 {
   margin: 0;
 }
 
-h3 {
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+h3,
+.h3 {
   font-family: 'Playfair Display', serif;
   font-weight: 400;
   font-size: 15px;

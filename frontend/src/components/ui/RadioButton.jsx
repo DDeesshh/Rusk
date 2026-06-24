@@ -8,7 +8,7 @@ const CustRadioButton = styled.input.attrs({ type: 'radio' })`
 `;
 
 const Label = styled.label`
-  font-family: 'Marriweather', serif;
+  font-family: 'Merriweather', serif;
   font-weight: 400;
   font-size: 15px;
   color: var(--text-color);
