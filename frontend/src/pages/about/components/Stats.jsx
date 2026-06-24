@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const StatsSection = styled.section`
   position: relative;
   padding: 4rem 0;
-  background-image: url('../../../public/img/bg.jpg');
+  background-image: url('/img/bg.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -7,7 +7,11 @@ WEB="/var/www/html"
 
 cd "$ROOT"
 echo "→ git pull..."
+git config --global --add safe.directory "$ROOT" 2>/dev/null || true
 git pull
+
+echo "→ права (после clone/pull от root)..."
+chown -R nodejs:nodejs "$ROOT"
 
 echo "→ frontend: install + build..."
 cd "$ROOT/frontend"
