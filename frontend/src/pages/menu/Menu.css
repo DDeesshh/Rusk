@@ -135,6 +135,11 @@
 
 .menu-item__price {
     color: var(--primary-color);
+    font-variant-numeric: lining-nums;
+}
+
+.menu-item__weight {
+    font-variant-numeric: lining-nums;
 }
 
 /* ---------- MenuCategory ---------- */

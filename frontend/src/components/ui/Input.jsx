@@ -54,6 +54,9 @@ const CustInput = styled.input`
 
   &::placeholder {
     color: var(--default-font-input);
+    font-family: "Merriweather", serif;
+    font-weight: 600;
+    opacity: 1;
   }
 
   &::-webkit-calendar-picker-indicator {
@@ -245,6 +248,7 @@ export default function Input({
   onDisplayChange,
   label = "Дата рождения*",
   max,
+  inputMode: inputModeProp,
   ...rest
 }) {
   if (birthDate) {
@@ -270,6 +274,19 @@ export default function Input({
   const showDatePlaceholder =
     type === "date" && Boolean(placeholder) && isEmpty && !focused;
 
+  // iOS/Android: type=email|tel|number всегда рисуют системным шрифтом
+  const useNativeType = type === "date" || type === "time" || type === "password";
+  const htmlType = useNativeType ? type : "text";
+  const inputMode =
+    inputModeProp ??
+    (type === "email"
+      ? "email"
+      : type === "tel"
+        ? "tel"
+        : type === "number"
+          ? "numeric"
+          : undefined);
+
   const handleChange = (e) => {
     onChange?.(e);
   };
@@ -281,7 +298,8 @@ export default function Input({
           className={className}
           name={name}
           placeholder={type === "date" ? "" : placeholder}
-          type={type}
+          type={htmlType}
+          inputMode={inputMode}
           $size={size}
           $hideNativeDate={hideNativeDate}
           $error={Boolean(errorText)}

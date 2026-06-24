@@ -44,9 +44,11 @@ const StatsContainer = styled.div`
 `;
 
 const StatNumber = styled.h1`
+  font-family: 'Playfair Display', serif;
   color: var(--primary-color) !important;
   font-weight: 700 !important;
   margin-bottom: 0.5rem !important;
+  font-variant-numeric: lining-nums;
 `;
 
 const StatLabel = styled.p`

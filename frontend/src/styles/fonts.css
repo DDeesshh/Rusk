@@ -1,0 +1,10 @@
+/* Полные наборы: кириллица + латиница + цифры (unicode-range) */
+@import '@fontsource/merriweather/300.css';
+@import '@fontsource/merriweather/400.css';
+@import '@fontsource/merriweather/500.css';
+@import '@fontsource/merriweather/600.css';
+@import '@fontsource/merriweather/700.css';
+@import '@fontsource/playfair-display/400.css';
+@import '@fontsource/playfair-display/500.css';
+@import '@fontsource/playfair-display/600.css';
+@import '@fontsource/playfair-display/700.css';
