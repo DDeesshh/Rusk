@@ -1,5 +1,7 @@
 import { deliveryTypeShort, paymentMethodLabel } from "../../../utils/orderFormat.js";
 
+const DELIVERY_FEE = 700;
+
 export function formatRuDateTime(iso) {
   if (!iso) return "–";
   try {
@@ -144,6 +146,13 @@ export default function OrderDetailsBody({ order }) {
           </span>
         </p>
       </div>
+
+      {isDelivery ? (
+        <p className="account-order__delivery-fee">
+          <span className="account-order__meta-label">Сумма за доставку:</span>{" "}
+          <span className="account-order__meta-value">{DELIVERY_FEE}₽</span>
+        </p>
+      ) : null}
 
       <div className="account-order__total">
         <span className="account-order__total-caption">Итого:</span>{" "}

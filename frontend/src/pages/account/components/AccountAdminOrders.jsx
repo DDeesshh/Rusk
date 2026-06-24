@@ -157,7 +157,7 @@ export default function AccountAdminOrders() {
             <tr>
               <th scope="col">№</th>
               <th scope="col">Клиент</th>
-              <th scope="col">Дата</th>
+              <th scope="col">Дата создания</th>
               <th scope="col">Сумма</th>
               <th scope="col">Доставка</th>
               <th scope="col">Статус</th>

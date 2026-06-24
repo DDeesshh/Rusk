@@ -137,6 +137,22 @@
   margin-right: 0.35rem;
 }
 
+.checkout__delivery-fee {
+  margin: 0;
+  text-align: left;
+  font-family: "Merriweather", serif;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+.checkout__delivery-fee-label {
+  color: var(--primary-color);
+  font-weight: 500;
+  margin-right: 0.35rem;
+}
+
 .checkout__total {
   display: flex;
   justify-content: center;

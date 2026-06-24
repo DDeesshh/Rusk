@@ -13,6 +13,7 @@ import "./Checkout.css";
 
 const PICKUP_ADDRESS = "Большой Саввинский пер., д. 1";
 const PICKUP_HOURS = "ПН – ПТ: 11:00 – 21:00;      СБ – ВС: 11:00 – 00:00";
+const DELIVERY_FEE = 700;
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^\+7\d{10}$/;
@@ -176,7 +177,7 @@ export default function Checkout() {
 
       const data = await createOrder(token, payload);
       const displayNumber = data.order?.displayNumber || String(data.order?.id || "");
-      setFrozenTotal(totalSum);
+      setFrozenTotal(checkoutTotal);
       setOrderPlaced(true);
       clearCart();
       setSuccessModal({ open: true, displayNumber });
@@ -199,6 +200,8 @@ export default function Checkout() {
   const isPickup = deliveryType === "pickup";
   const timeLabel = isPickup ? "Время получения" : "Время доставки";
   const dateLabel = isPickup ? "Дата получения" : "Дата доставки";
+  const deliveryFee = isPickup ? 0 : DELIVERY_FEE;
+  const checkoutTotal = totalSum + deliveryFee;
 
   return (
     <div className="checkout account">
@@ -412,11 +415,15 @@ export default function Checkout() {
                     <span className="checkout__pickup-label">Часы работы:</span> {PICKUP_HOURS}
                   </p>
                 </div>
-              ) : null}
+              ) : (
+                <p className="checkout__delivery-fee">
+                  <span className="checkout__delivery-fee-label">Сумма за доставку:</span> {DELIVERY_FEE}₽
+                </p>
+              )}
 
               <div className="checkout__total">
                 <span className="checkout__total-label">Итого:</span>
-                <span className="checkout__total-sum">{frozenTotal != null ? frozenTotal : totalSum}₽</span>
+                <span className="checkout__total-sum">{frozenTotal != null ? frozenTotal : checkoutTotal}₽</span>
               </div>
 
               <div className="checkout__submit">

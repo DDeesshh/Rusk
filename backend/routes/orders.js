@@ -5,6 +5,8 @@ import { validateOrderSlot } from "../lib/orderHours.js";
 
 const router = express.Router();
 
+const DELIVERY_FEE = 700;
+
 router.use(authMiddleware);
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
