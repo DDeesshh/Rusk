@@ -2,14 +2,17 @@ import {
   DishImageActionRemoveFavorite,
   DishImageActionAddToCartFavorite,
 } from "../../../components/ui/ActionButton.jsx";
+import ImageLightbox from "../../../components/ui/ImageLightbox.jsx";
 import { mediaUrl } from "../../../config/api.js";
 import { useCart } from "../../../contexts/CartContext.jsx";
+import { useState } from "react";
 import "../../menu/Menu.css";
 
 export default function FavoriteMenuItem({ item, onRemoved }) {
   const { addItem } = useCart();
   const { img, title, ingredients, price, weight } = item;
   const imgSrc = mediaUrl(img);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const handleAddToCart = () => {
     addItem({
@@ -23,7 +26,22 @@ export default function FavoriteMenuItem({ item, onRemoved }) {
   return (
     <div className="menu-item">
       <div className="menu-item__image-wrapper">
-        <img src={imgSrc} alt={title} className="menu-item__image" />
+        <button
+          type="button"
+          className="menu-item__image-open"
+          onClick={() => setLightboxOpen(true)}
+          aria-label={`Открыть фото: ${title}`}
+        >
+          <img src={imgSrc} alt="" className="menu-item__image" />
+        </button>
+
+        {lightboxOpen ? (
+          <ImageLightbox
+            src={imgSrc}
+            alt={title}
+            onClose={() => setLightboxOpen(false)}
+          />
+        ) : null}
         <DishImageActionAddToCartFavorite onClick={handleAddToCart} />
         <DishImageActionRemoveFavorite
           onClick={() => onRemoved?.(item.id)}

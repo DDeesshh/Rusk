@@ -4,7 +4,9 @@ import {
   DishImageActionFavorite,
   DishImageActionMenuCartAdd,
 } from "../../components/ui/ActionButton.jsx";
+import ImageLightbox from "../../components/ui/ImageLightbox.jsx";
 import { mediaUrl } from "../../config/api.js";
+import { useState } from "react";
 
 const MenuItem = ({
   item,
@@ -17,11 +19,27 @@ const MenuItem = ({
 }) => {
   const { img, title, ingredients, price, weight } = item;
   const imgSrc = mediaUrl(img);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   return (
     <div className="menu-item" id={`menu-dish-${item.id}`}>
       <div className="menu-item__image-wrapper">
-        <img src={imgSrc} alt={title} className="menu-item__image" />
+        <button
+          type="button"
+          className="menu-item__image-open"
+          onClick={() => setLightboxOpen(true)}
+          aria-label={`Открыть фото: ${title}`}
+        >
+          <img src={imgSrc} alt="" className="menu-item__image" />
+        </button>
+
+        {lightboxOpen ? (
+          <ImageLightbox
+            src={imgSrc}
+            alt={title}
+            onClose={() => setLightboxOpen(false)}
+          />
+        ) : null}
 
         {userRole === "client" && (
           <>
