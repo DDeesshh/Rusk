@@ -1,0 +1,117 @@
+.account-admin-select {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 11rem;
+}
+
+.account-admin-table td .account-admin-select {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.account-admin-applications__filter .account-admin-select {
+  margin: 0;
+}
+
+.account-admin-select__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Merriweather", serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--text-color);
+  background-color: color-mix(in srgb, var(--decorate-bg) 65%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary-color) 40%, transparent);
+  border-radius: 4px;
+  padding: 6px 0.65rem 6px 10px;
+  cursor: pointer;
+}
+
+.account-admin-select__trigger:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.account-admin-select__value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-admin-select__arrow {
+  flex-shrink: 0;
+  width: 10px;
+  height: 6px;
+  background-color: var(--primary-color);
+  transition: transform 0.15s ease;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath fill='%23000' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath fill='%23000' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.account-admin-select__trigger.is-open .account-admin-select__arrow {
+  transform: rotate(180deg);
+}
+
+.account-admin-select__list {
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  background: var(--decorate-bg);
+  border: 1px solid color-mix(in srgb, var(--primary-color) 40%, transparent);
+  border-radius: 4px;
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--add-color) 30%, transparent);
+}
+
+.account-admin-select__option {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  padding: 7px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-color);
+  font-family: "Merriweather", serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.account-admin-select__option:hover,
+.account-admin-select__option.is-selected {
+  background: color-mix(in srgb, var(--primary-color) 14%, transparent);
+  color: var(--primary-color);
+}
+
+@media (max-width: 500px) {
+  .account-admin-applications__filter .account-admin-select {
+    max-width: min(100%, 10.5rem);
+  }
+
+  .account-admin-select__trigger,
+  .account-admin-select__option {
+    font-size: 13px;
+  }
+
+  .account-admin-select__option {
+    padding: 6px 10px;
+  }
+}

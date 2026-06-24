@@ -1,4 +1,5 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import AdminSelect from "../../../components/ui/AdminSelect.jsx";
 import { useAuth } from "../../../contexts/AuthContext.jsx";
 import {
   fetchAdminOrderById,
@@ -9,6 +10,16 @@ import { orderStatusLabel, ORDER_STATUS_VALUES } from "../../../lib/orderStatus.
 import { formatOrderCreatedAt, deliveryTypeShort } from "../../../utils/orderFormat.js";
 import OrderDetailsBody from "./OrderDetailsBody.jsx";
 import OrderDetailsSummary from "./OrderDetailsSummary.jsx";
+
+const ORDER_STATUS_OPTIONS = ORDER_STATUS_VALUES.map((status) => ({
+  value: status,
+  label: orderStatusLabel(status),
+}));
+
+const ORDER_FILTER_OPTIONS = [
+  { value: "all", label: "Все" },
+  ...ORDER_STATUS_OPTIONS,
+];
 
 export default function AccountAdminOrders() {
   const { token } = useAuth();
@@ -143,7 +154,7 @@ export default function AccountAdminOrders() {
 
   return (
     <div className="account-admin-orders">
-      <p className="account-admin-orders__text text-center mb-5">
+      <p className="account-admin-orders__text text-center">
         Список заказов клиентов. Нажмите на номер заказа, чтобы открыть состав и детали доставки.
       </p>
 
@@ -151,22 +162,13 @@ export default function AccountAdminOrders() {
         <label className="account-admin-applications__filter-label" htmlFor="orders-status-filter">
           Статус
         </label>
-        <span className="account-admin-select">
-          <select
-            id="orders-status-filter"
-            className="account-admin-orders__status"
-            value={statusFilter}
-            aria-label="Фильтр по статусу заказа"
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-            <option value="all">Все</option>
-            {ORDER_STATUS_VALUES.map((st) => (
-              <option key={st} value={st}>
-                {orderStatusLabel(st)}
-              </option>
-            ))}
-          </select>
-        </span>
+        <AdminSelect
+          id="orders-status-filter"
+          value={statusFilter}
+          options={ORDER_FILTER_OPTIONS}
+          ariaLabel="Фильтр по статусу заказа"
+          onChange={setStatusFilter}
+        />
       </div>
 
       {visibleOrders.length === 0 ? (
@@ -229,21 +231,13 @@ export default function AccountAdminOrders() {
                     <td>{Number(row.total_price)}₽</td>
                     <td>{deliveryTypeShort(row.delivery_type)}</td>
                     <td>
-                      <span className="account-admin-select">
-                        <select
-                          className="account-admin-orders__status"
-                          value={row.status}
-                          disabled={savingId === row.id}
-                          aria-label={`Статус заказа №${row.displayNumber}`}
-                          onChange={(e) => handleStatusChange(row.id, e.target.value)}
-                        >
-                          {ORDER_STATUS_VALUES.map((st) => (
-                            <option key={st} value={st}>
-                              {orderStatusLabel(st)}
-                            </option>
-                          ))}
-                        </select>
-                      </span>
+                      <AdminSelect
+                        value={row.status}
+                        options={ORDER_STATUS_OPTIONS}
+                        disabled={savingId === row.id}
+                        ariaLabel={`Статус заказа №${row.displayNumber}`}
+                        onChange={(nextStatus) => handleStatusChange(row.id, nextStatus)}
+                      />
                     </td>
                   </tr>
                   {isExpanded ? (

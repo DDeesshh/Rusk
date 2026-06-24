@@ -46,6 +46,8 @@
   padding-left: 15px;
   padding-right: 15px;
   box-sizing: border-box;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .account-admin-clients__status {
@@ -61,6 +63,11 @@
 
 .account-admin-clients {
   width: 100%;
+}
+
+.account-admin-applications__text,
+.account-admin-orders__text {
+  margin-bottom: 1.5rem;
 }
 
 .account-admin-applications__filter {
@@ -83,44 +90,6 @@
   text-align: left;
 }
 
-.account-admin-applications__filter .account-admin-select {
-  margin: 0;
-}
-
-.account-admin-select {
-  position: relative;
-  display: block;
-  width: 100%;
-  max-width: 11rem;
-}
-
-.account-admin-table td .account-admin-select {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.account-admin-select::after {
-  content: "";
-  position: absolute;
-  right: 0.65rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 10px;
-  height: 6px;
-  background-color: var(--primary-color);
-  pointer-events: none;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath fill='%23000' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath fill='%23000' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  mask-size: contain;
-}
-
-.account-admin-select:has(.account-admin-orders__status:disabled)::after {
-  opacity: 0.6;
-}
-
 .account-admin-table {
   width: 100%;
   table-layout: fixed;
@@ -137,8 +106,9 @@
   vertical-align: middle;
   border: none;
   border-bottom: 1px solid var(--account-table-divider, color-mix(in srgb, var(--primary-color) 18%, transparent));
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
 }
 
 .account-admin-table thead th {
@@ -152,6 +122,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--primary-color);
+  white-space: nowrap;
 }
 
 .account-admin-table tbody td {
@@ -159,13 +130,19 @@
   padding-top: 12px;
   padding-bottom: 14px;
   color: var(--text-color);
+  overflow-wrap: break-word;
 }
 
-/* Короткие колонки без переноса заголовка / статуса */
-.account-admin-table--applications thead th:nth-child(7),
+/* Длинные email — перенос только если не помещается целиком */
+.account-admin-table--applications tbody td:nth-child(4),
+.account-admin-table--clients tbody td:nth-child(4) {
+  overflow-wrap: break-word;
+}
+
+/* Короткие колонки без переноса */
 .account-admin-table--applications tbody td:nth-child(7),
-.account-admin-table--applications thead th:nth-child(8),
-.account-admin-table--applications tbody td:nth-child(8) {
+.account-admin-table--applications tbody td:nth-child(8),
+.account-admin-table--orders tbody td:nth-child(5) {
   white-space: nowrap;
 }
 
@@ -291,55 +268,25 @@
   margin-top: 1.75rem;
 }
 
-.account-admin-orders__status {
-  width: 100%;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: "Merriweather", serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--text-color);
-  background-color: color-mix(in srgb, var(--decorate-bg) 65%, transparent);
-  border: 1px solid color-mix(in srgb, var(--primary-color) 40%, transparent);
-  border-radius: 4px;
-  padding: 6px 1.75rem 6px 10px;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+.account-admin-table--clients {
+  min-width: 520px;
 }
 
-.account-admin-orders__status:disabled {
-  opacity: 0.6;
-  cursor: wait;
+.account-admin-table--applications {
+  min-width: 760px;
 }
 
-@media (max-width: 768px) {
-  .account-admin-table-outer {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
+.account-admin-table--cart {
+  min-width: 560px;
+}
 
-  .account-admin-table--clients {
-    min-width: 520px;
-  }
+.account-admin-table--history,
+.account-admin-table--order-items {
+  min-width: 640px;
+}
 
-  .account-admin-table--applications {
-    min-width: 720px;
-  }
-
-  .account-admin-table--cart {
-    min-width: 560px;
-  }
-
-  .account-admin-table--history,
-  .account-admin-table--order-items {
-    min-width: 640px;
-  }
-
-  .account-admin-table--orders {
-    min-width: 720px;
-  }
+.account-admin-table--orders {
+  min-width: 720px;
 }
 
 .account-profile__text {

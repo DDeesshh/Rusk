@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import AdminSelect from "../../../components/ui/AdminSelect.jsx";
 import { useAuth } from "../../../contexts/AuthContext.jsx";
 import { fetchAdminReservations } from "../../../services/adminService.js";
 
@@ -25,6 +26,11 @@ const STATUS_FILTERS = [
   { id: "confirmed", label: "Подтверждена" },
   { id: "cancelled", label: "Отменена" },
 ];
+
+const STATUS_FILTER_OPTIONS = STATUS_FILTERS.map((item) => ({
+  value: item.id,
+  label: item.label,
+}));
 
 function sortByNewest(list) {
   return [...list].sort((a, b) => {
@@ -76,7 +82,7 @@ export default function AccountAdminApplications() {
 
   return (
     <div className="account-admin-applications">
-      <p className="account-admin-applications__text text-center mb-4">
+      <p className="account-admin-applications__text text-center">
         В этом разделе отображается список всех заявок на бронирование. Сначала показаны последние
         заявки.
       </p>
@@ -85,21 +91,13 @@ export default function AccountAdminApplications() {
         <label className="account-admin-applications__filter-label" htmlFor="applications-status-filter">
           Статус
         </label>
-        <span className="account-admin-select">
-          <select
-            id="applications-status-filter"
-            className="account-admin-orders__status"
-            value={statusFilter}
-            aria-label="Фильтр по статусу брони"
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-            {STATUS_FILTERS.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.label}
-              </option>
-            ))}
-          </select>
-        </span>
+        <AdminSelect
+          id="applications-status-filter"
+          value={statusFilter}
+          options={STATUS_FILTER_OPTIONS}
+          ariaLabel="Фильтр по статусу брони"
+          onChange={setStatusFilter}
+        />
       </div>
 
       {rows.length === 0 ? (
