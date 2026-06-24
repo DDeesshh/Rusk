@@ -35,6 +35,10 @@ const CarouselWrapper = styled.div`
   @media (max-width: 880px) {
     height: 25rem;
   }
+
+  @media (max-width: 832px) {
+    height: 22rem;
+  }
 `;
 
 const SlideContent = styled.div`
@@ -80,11 +84,20 @@ const Caption = styled.div`
 
 const Title = styled.h1`
   margin-bottom: 1.875rem;
+
+  @media (max-width: 832px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const Text = styled.p`
   margin-bottom: 3.75rem;
   font-size: 1.25rem;
+
+  @media (max-width: 832px) {
+    margin-bottom: 2rem;
+    font-size: 1rem;
+  }
 `;
 
 const Arrow = styled(IconButton)`
@@ -96,6 +109,12 @@ const Arrow = styled(IconButton)`
 
   ${({ direction }) => direction === "left" && "left: 20px;"}
   ${({ direction }) => direction === "right" && "right: 20px;"}
+
+  @media (max-width: 832px) {
+    ${({ direction }) => direction === "left" && "left: 8px;"}
+    ${({ direction }) => direction === "right" && "right: 8px;"}
+    padding: 6px;
+  }
 
   &:hover {
     color: var(--primary-color);

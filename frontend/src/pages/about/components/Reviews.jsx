@@ -122,9 +122,9 @@ export default function Reviews({ userRole = "guest" }) {
                         spaceBetween={20}
                         slidesPerView={3}
                         breakpoints={{
-                            0: { slidesPerView: 1 },
-                            768: { slidesPerView: 2 },
-                            1200: { slidesPerView: 3 },
+                            0: { slidesPerView: 1, spaceBetween: 16 },
+                            833: { slidesPerView: 2, spaceBetween: 16 },
+                            1193: { slidesPerView: 3, spaceBetween: 20 },
                         }}
                     >
                         {reviews.map((review) => (

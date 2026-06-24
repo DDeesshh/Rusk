@@ -11,6 +11,7 @@ import Checkout from './pages/account/Checkout.jsx';
 import ReservationAction from './pages/reservation/ReservationAction.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { useAuth } from './contexts/AuthContext.jsx';
+import { CartProvider } from './contexts/CartContext.jsx';
 
 import ThemeSwitch from './components/ui/ThemeSwitch.jsx';
 import Button from './components/ui/Button.jsx';
@@ -25,6 +26,7 @@ function App() {
   const { userRole } = useAuth();
 
   return (
+    <CartProvider>
     <Router>
       <ScrollToTop />
       <Header />
@@ -60,6 +62,7 @@ function App() {
       </Routes>
       <Footer />
     </Router>
+    </CartProvider>
 
 
 

@@ -11,6 +11,15 @@ const CustNavButton = styled(Link)`
   color: var(--text-color);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  line-height: 1.3;
+
+  @media (max-width: 832px) {
+    font-size: 13px;
+  }
+
+  @media (max-width: 576px) {
+    font-size: 11px;
+  }
 
   &:hover {
     color: var(--primary-color);

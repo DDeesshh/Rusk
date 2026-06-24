@@ -72,6 +72,12 @@ a {
   margin-bottom: 2rem;
 }
 
+@media (max-width: 832px) {
+  .header__logo {
+    font-size: 26px;
+  }
+}
+
 @media (max-width: 880px) {
 
   h1 {

@@ -72,3 +72,9 @@
         height: 15rem;
     }
 }
+
+@media (max-width: 832px) {
+    .top-dishes {
+        margin: 4.5rem 0;
+    }
+}

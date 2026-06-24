@@ -5,13 +5,24 @@ const CustButton = styled.button`
   font-weight: 600;
   text-transform: uppercase; 
 
-  font-size: ${props => props.size === 'large' ? '20px' : '15px'};
-  padding: ${props => props.size === 'large' ? '20px 24px' : '16px 23px'};
-  height: ${props => props.size === 'large' ? '74px' : '51px'};
+  font-size: ${props =>
+    props.size === 'large' ? '20px' : props.size === 'compact' ? '12px' : '15px'};
+  padding: ${props =>
+    props.size === 'large' ? '20px 24px' : props.size === 'compact' ? '10px 12px' : '16px 23px'};
+  height: ${props =>
+    props.size === 'large' ? '74px' : props.size === 'compact' ? '40px' : '51px'};
+
+  ${props => props.size === 'large' ? `
+    @media (max-width: 832px) {
+      font-size: 16px;
+      padding: 14px 18px;
+      height: 56px;
+    }
+  ` : ''}
 
   color: ${props => props.disabled ? 'var(--button-disabled)' : 'var(--primary-color)'};
   background-color: transparent;
-  border: 3px solid var(--primary-color);
+  border: ${props => props.size === 'compact' ? '2px' : '3px'} solid var(--primary-color);
 
   display: flex;
   align-items: center;
@@ -29,13 +40,13 @@ const CustButton = styled.button`
 
   &:active {
     background-color:var(--secondary-color);
-    border: 3px solid var(--secondary-color);
+    border: ${props => props.size === 'compact' ? '2px' : '3px'} solid var(--secondary-color);
     color: var(--text-color);
   }
     
   
   &:disabled {
-    border: 3px solid var(--button-disabled);
+    border: ${props => props.size === 'compact' ? '2px' : '3px'} solid var(--button-disabled);
     cursor: not-allowed;
 
     &:hover {
