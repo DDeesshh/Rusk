@@ -9,9 +9,14 @@ const CustNavButton = styled(Link)`
   text-transform: uppercase; 
   text-decoration: none;
   color: var(--text-color);
+  white-space: nowrap;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   line-height: 1.3;
+
+  @media (max-width: 1080px) and (min-width: 992px) {
+    font-size: 13px;
+  }
 
   @media (max-width: 832px) {
     font-size: 13px;

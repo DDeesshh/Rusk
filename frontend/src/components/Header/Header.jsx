@@ -10,18 +10,18 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import "./Header.css";
 
-const MOBILE_HEADER_MQ = "(max-width: 832px)";
+const COMPACT_BOOK_BTN_MQ = "(max-width: 991px)";
 
 const Header = () => {
   const { userRole } = useAuth();
   const { authButton, authIcons, modal } = useUserRoles();
   const goToBookingForm = useGoToBookingForm();
   const [compactBookBtn, setCompactBookBtn] = useState(
-    () => typeof window !== "undefined" && window.matchMedia(MOBILE_HEADER_MQ).matches
+    () => typeof window !== "undefined" && window.matchMedia(COMPACT_BOOK_BTN_MQ).matches
   );
 
   useEffect(() => {
-    const mq = window.matchMedia(MOBILE_HEADER_MQ);
+    const mq = window.matchMedia(COMPACT_BOOK_BTN_MQ);
     const onChange = (e) => setCompactBookBtn(e.matches);
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
@@ -45,17 +45,21 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="header__btn-switch">
-          <Button
-            text="Бронь стола"
-            size={compactBookBtn ? "compact" : "small"}
-            onClick={goToBookingForm}
-          />
-          <ThemeSwitch />
-        </div>
+        <div className="header__actions">
+          <div className="header__book-wrap">
+            <Button
+              text="Бронь стола"
+              size={compactBookBtn ? "compact" : "small"}
+              onClick={goToBookingForm}
+            />
+          </div>
 
-        <div className="header__burger">
-          <BurgerMenu />
+          <div className="header__tools">
+            <ThemeSwitch />
+            <div className="header__burger">
+              <BurgerMenu />
+            </div>
+          </div>
         </div>
 
       </div>
