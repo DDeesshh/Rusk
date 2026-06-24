@@ -18,10 +18,21 @@ cd "$ROOT/frontend"
 sudo -u nodejs npm install
 sudo -u nodejs npm run build
 
-echo "→ копирование dist и backend в /var/www/html..."
+echo "→ копирование dist в /var/www/html (живой сайт)..."
+rm -rf "$WEB/assets"
 cp -r "$ROOT/frontend/dist/"* "$WEB/"
+
+echo "→ backend в /var/www/html/backend..."
+ENV_BACKUP=""
+if [ -f "$WEB/backend/.env" ]; then
+  ENV_BACKUP=$(mktemp)
+  cp "$WEB/backend/.env" "$ENV_BACKUP"
+fi
 cp -r "$ROOT/backend/"* "$WEB/backend/"
-cp "$ROOT/backend/.env" "$WEB/backend/.env"
+if [ -n "$ENV_BACKUP" ] && [ -f "$ENV_BACKUP" ]; then
+  cp "$ENV_BACKUP" "$WEB/backend/.env"
+  rm -f "$ENV_BACKUP"
+fi
 
 echo "→ backend: npm install..."
 cd "$WEB/backend"

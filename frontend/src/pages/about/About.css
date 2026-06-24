@@ -192,13 +192,7 @@
 }
 
 /* ------------- Stats ------------- */
-
-.about__stats {
-    margin-top: 6.875rem;
-    background-image: url('/img/bg.jpg');
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-}
+/* фон блока — в Stats.jsx (fixed-слой, без background-attachment) */
 
 /* ------------- Services ------------- */
 

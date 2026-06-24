@@ -1,8 +1,28 @@
+html {
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   padding: 0;
-  background: var(--bg-image) no-repeat center center fixed;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  background-color: var(--decorate-bg);
+}
+
+/* Статичный фон: работает в Chrome, Firefox, Safari (в т.ч. iOS), без пикселизации */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--bg-image);
+  background-repeat: no-repeat;
+  background-position: center center;
   background-size: cover;
+  pointer-events: none;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .content {

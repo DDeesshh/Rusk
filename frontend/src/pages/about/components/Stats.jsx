@@ -4,17 +4,37 @@ import styled from 'styled-components';
 const StatsSection = styled.section`
   position: relative;
   padding: 4rem 0;
+  margin-bottom: 6.875rem;
+  isolation: isolate;
+`;
+
+const StatsBgHolder = styled.div`
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(0);
+  z-index: 0;
+  pointer-events: none;
+`;
+
+const StatsBg = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background-image: url('/img/bg.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  margin-bottom: 6.875rem;
-  background-attachment: fixed;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 `;
 
 const Overlay = styled.div`
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: color-mix(in srgb, var(--decorate-bg) 70%, transparent);
 `;
 
@@ -89,6 +109,9 @@ export default function Stats() {
 
     return (
         <StatsSection>
+            <StatsBgHolder aria-hidden="true">
+                <StatsBg />
+            </StatsBgHolder>
             <Overlay />
             
             <StatsContainer className="container">

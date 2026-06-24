@@ -4,16 +4,34 @@
 @font-face {
   font-family: 'Playfair Display';
   src: url('../assets/fonts/PlayfairDisplay.woff2') format('woff2');
-  font-weight: 400 900;
+  font-weight: 400;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../assets/fonts/PlayfairDisplay.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* Merriweather */
 @font-face {
   font-family: 'Merriweather';
   src: url('../assets/fonts/Merriweather.woff2') format('woff2');
-  font-weight: 300 900;
+  font-weight: 300;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Merriweather';
+  src: url('../assets/fonts/Merriweather.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
 }
 
 h1,

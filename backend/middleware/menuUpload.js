@@ -24,6 +24,10 @@ function resolveUploadsDir() {
   const publicUploads = path.join(projectRoot, "frontend", "public", "uploads");
   const backendUploads = path.join(__dirname, "..", "uploads");
 
+  // На хостинге фото блюд лежат в /var/www/html/uploads, не в frontend/public
+  if (process.env.NODE_ENV === "production" && fs.existsSync(rootUploads)) {
+    return rootUploads;
+  }
   if (fs.existsSync(publicUploads)) {
     return publicUploads;
   }

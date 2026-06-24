@@ -49,10 +49,11 @@ app.use("/api/reviews", reviewsRoutes);
 app.use("/api/dev/email-preview", emailPreviewRoutes);
 
 if (isProduction) {
+  // deploy.sh кладёт dist в /var/www/html/, а не в frontend/dist
   app.use('/img', express.static(path.join(webRoot, 'img')));
-  app.use(express.static(frontendDist));
+  app.use('/assets', express.static(path.join(webRoot, 'assets')));
   app.get(/^(?!\/api).*/, (_req, res) => {
-    res.sendFile(path.join(frontendDist, 'index.html'));
+    res.sendFile(path.join(webRoot, 'index.html'));
   });
 }
 
